@@ -1,0 +1,31 @@
+composition hip_hop
+var(Number res, Number arr[0], Number i, Number j)
+
+
+func fibo :: Number lim -> Number 
+|>	var(Number ret)
+	if :: lim == 0 -> ret = 0;
+	if :: lim == 1 -> ret = 1;
+	if :: lim > 1 -> ret = fibo(lim - 1) + fibo(lim - 2);
+
+	return ret;
+<|
+
+
+main
+|>	
+	i = 0;
+	arr = [ 1 , 2 , 3 , 4 , 5 ];
+	res = 0;
+
+
+	[: (5) ->
+		j = fibo(arr[i]);
+		display(j);
+		res = res + j;
+		i = i + 1;
+	:]
+
+	display("Suma");
+	display(res);
+<|

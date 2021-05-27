@@ -1,0 +1,39 @@
+composition hip_hop
+var(Note note , Number res)
+
+main
+|>	
+	Stream(2);
+	res = 0 - 3;
+
+	[: 
+		Play(E5.1/2 + res ,0);
+		Play(E5b.1/2 + res,0);
+	:]
+
+	Play(E5.1/2 + res,0);
+
+	Play(B4.1/2 + res,0);
+	Play(D5.1/2 + res,0);
+	Play(C5.1/2 + res,0);
+	Play(A4.1/2 + res,0);
+
+	Play(Silence, 4, 1);
+	Play(A2.1/2 + res ,1);
+	Play(E3.1/2 + res,1);
+	Play(A3.1/2 + res,1);
+
+	Play(Silence, 1, 0);
+	Play(C4.1/2 + res ,0);
+	Play(E4.1/2 + res,0);
+	Play(A4.1/2 + res,0);
+	Play(B4.1/2 + res ,0);
+
+	Play(Silence, 1.5, 1);
+	Play(E2.1/2 + res,1);
+	Play(E3.1/2 + res,1);
+	Play(G3#.1/2 + res,1);
+
+
+	MusicSheet();
+<|

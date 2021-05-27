@@ -1,0 +1,4415 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    LIST
+    RARROW
+    COLON
+    PRINTF
+    INPUT
+
+Grammar
+
+Rule 0     S' -> PROGRAM
+Rule 1     PROGRAM -> COMP ID G1 F_VARDEC G2 F_FUNCDEC F1 MAIN_BLOCK
+Rule 2     F_FUNCDEC -> FUNCDEC F_FUNCDEC
+Rule 3     F_FUNCDEC -> e
+Rule 4     VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR
+Rule 5     VARID -> LSQUARE NUMBER RSQUARE VARIDB
+Rule 6     VARIDB -> LSQUARE NUMBER RSQUARE VARIDB
+Rule 7     VARIDB -> e
+Rule 8     EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB
+Rule 9     EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB
+Rule 10    EXPVARIDB -> e
+Rule 11    VARDECB -> COMMA TYPE ID VARIDB VARDECB
+Rule 12    VARDECB -> e
+Rule 13    FUNCDEC -> FUNC F1 AUXFUNCDEC FUNCBLOCK
+Rule 14    AUXFUNCDEC -> ID DDOT F_ARGS LARROW RETTYPE
+Rule 15    F_ARGS -> ARGS
+Rule 16    F_ARGS -> e
+Rule 17    FUNCBLOCK -> LTRIAN F_VARDEC STATEMENTS F_RETURN RTRIAN
+Rule 18    F_VARDEC -> VARDEC
+Rule 19    F_VARDEC -> e
+Rule 20    F_RETURN -> RETURN EXP SEMICOLON
+Rule 21    F_RETURN -> e
+Rule 22    STATEMENTS -> STATEMENT N0 STATEMENTS
+Rule 23    STATEMENTS -> e
+Rule 24    N0 -> e
+Rule 25    MAIN_BLOCK -> MAIN FUNCBLOCK
+Rule 26    STATEMENT -> ASSIGN SEMICOLON
+Rule 27    STATEMENT -> FUNCCALL SEMICOLON
+Rule 28    STATEMENT -> WHILE_BLOCK
+Rule 29    STATEMENT -> RITORNELLO
+Rule 30    STATEMENT -> IF_BLOCK
+Rule 31    STATEMENT -> PRINT SEMICOLON
+Rule 32    STATEMENT -> PLAYFUNCS SEMICOLON
+Rule 33    STATEMENT -> MUSICFUNCS SEMICOLON
+Rule 34    ARGS -> TYPE ID H_ARGS
+Rule 35    H_ARGS -> COMMA ARGS
+Rule 36    H_ARGS -> e
+Rule 37    CALLARGS -> C1 EXP C2 H_CALLARGS
+Rule 38    CALLARGS -> e
+Rule 39    C1 -> e
+Rule 40    C2 -> e
+Rule 41    H_CALLARGS -> COMMA CALLARGS
+Rule 42    H_CALLARGS -> e
+Rule 43    FUNCCALL -> ID LPAR CALLARGS RPAR
+Rule 44    PRINT -> DISP LPAR EXP RPAR
+Rule 45    MUSICFUNCS -> STREAMT LPAR EXP RPAR
+Rule 46    MUSICFUNCS -> MIDIT LPAR RPAR
+Rule 47    MUSICFUNCS -> MST LPAR RPAR
+Rule 48    PLAYFUNCS -> PLAYT LPAR EXP COMMA EXP RPAR
+Rule 49    PLAYFUNCS -> PLAYT LPAR SILENCE COMMA EXP COMMA EXP RPAR
+Rule 50    TYPE -> NUMBERTYPE
+Rule 51    TYPE -> LISTTYPE
+Rule 52    TYPE -> NOTETYPE
+Rule 53    TYPE -> BOOLTYPE
+Rule 54    TYPE -> STRINGTYPE
+Rule 55    RETTYPE -> NUMBERTYPE
+Rule 56    RETTYPE -> LISTTYPE
+Rule 57    RETTYPE -> NOTETYPE
+Rule 58    RETTYPE -> BOOLTYPE
+Rule 59    RETTYPE -> SILENCE
+Rule 60    BLOCK -> LTRIAN STATEMENTS RTRIAN
+Rule 61    ASSIGN -> ID EXPVARIDB ASSIGNATION EXP
+Rule 62    IF_BLOCK -> IF DDOT EXP A1 IF_B
+Rule 63    A1 -> e
+Rule 64    A2 -> e
+Rule 65    A3 -> e
+Rule 66    A3B -> e
+Rule 67    IF_B -> BLOCK F_ELSE A2
+Rule 68    IF_B -> LARROW IF_ARROW SEMICOLON A2
+Rule 69    IF_ARROW -> FUNCCALL
+Rule 70    IF_ARROW -> ASSIGN
+Rule 71    F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK
+Rule 72    F_ELSE -> e
+Rule 73    ELSE_BLOCK -> BLOCK
+Rule 74    ELSE_BLOCK -> IF_BLOCK
+Rule 75    WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2
+Rule 76    W1 -> e
+Rule 77    W2 -> e
+Rule 78    RITORNELLO -> LRITT RITARG STATEMENTS RRITT
+Rule 79    RITARG -> LPAR EXP RPAR LARROW
+Rule 80    RITARG -> e
+Rule 81    EXP -> EXPR EXP2 P7
+Rule 82    P7 -> e
+Rule 83    EXP2 -> e
+Rule 84    EXP2 -> EXP2_ops EXPR
+Rule 85    EXP2_ops -> GT
+Rule 86    EXP2_ops -> LT
+Rule 87    EXP2_ops -> DIFF
+Rule 88    EXP2_ops -> EQ
+Rule 89    EXP2_ops -> OR
+Rule 90    EXP2_ops -> AND
+Rule 91    EXPR -> TERM P4 EXPR_B
+Rule 92    P4 -> e
+Rule 93    EXPR_B -> EXPR_B_OPS EXPR
+Rule 94    EXPR_B -> e
+Rule 95    EXPR_B_OPS -> PLUS
+Rule 96    EXPR_B_OPS -> MINUS
+Rule 97    TERM -> FACTOR P5 TERM_B
+Rule 98    P5 -> e
+Rule 99    TERM_B -> TERM_B_OPS TERM
+Rule 100   TERM_B -> e
+Rule 101   TERM_B_OPS -> TIMES
+Rule 102   TERM_B_OPS -> DIVIDE
+Rule 103   IDVARID -> ID EXPVARID
+Rule 104   ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE
+Rule 105   ARRAYB -> COMMA C1 EXP C2 ARRAYB
+Rule 106   ARRAYB -> e
+Rule 107   FACTOR -> NUMBER
+Rule 108   FACTOR -> ID
+Rule 109   FACTOR -> FACTOR_CTE
+Rule 110   FACTOR -> LPAR P6 EXP RPAR
+Rule 111   FACTOR -> IDVARID
+Rule 112   FACTOR -> FUNCCALL
+Rule 113   FACTOR -> VARCTE
+Rule 114   FACTOR -> ARRAY
+Rule 115   P6 -> e
+Rule 116   FACTOR_CTE -> PLUS NUMBER
+Rule 117   FACTOR_CTE -> MINUS NUMBER
+Rule 118   VARCTE -> NOTE
+Rule 119   VARCTE -> BOOL
+Rule 120   VARCTE -> STRING
+Rule 121   e -> <empty>
+Rule 122   F1 -> e
+Rule 123   F2 -> e
+Rule 124   G1 -> e
+Rule 125   G2 -> e
+
+Terminals, with rules where they appear
+
+AND                  : 90
+ASSIGNATION          : 61
+BOOL                 : 119
+BOOLTYPE             : 53 58
+COLON                : 
+COMMA                : 11 35 41 48 49 49 105
+COMP                 : 1
+DDOT                 : 14 62 75
+DIFF                 : 87
+DISP                 : 44
+DIVIDE               : 102
+ELSE                 : 71
+EQ                   : 88
+FUNC                 : 13
+GT                   : 85
+ID                   : 1 4 11 14 34 43 61 103 108
+IF                   : 62
+INPUT                : 
+LARROW               : 14 68 79
+LIST                 : 
+LISTTYPE             : 51 56
+LPAR                 : 4 43 44 45 46 47 48 49 79 110
+LRITT                : 78
+LSQUARE              : 5 6 8 9 104
+LT                   : 86
+LTRIAN               : 17 60
+MAIN                 : 25
+MIDIT                : 46
+MINUS                : 96 117
+MST                  : 47
+NOTE                 : 118
+NOTETYPE             : 52 57
+NUMBER               : 5 6 107 116 117
+NUMBERTYPE           : 50 55
+OR                   : 89
+PLAYT                : 48 49
+PLUS                 : 95 116
+PRINTF               : 
+RARROW               : 
+RETURN               : 20
+RPAR                 : 4 43 44 45 46 47 48 49 79 110
+RRITT                : 78
+RSQUARE              : 5 6 8 9 104
+RTRIAN               : 17 60
+SEMICOLON            : 20 26 27 31 32 33 68
+SILENCE              : 49 59
+STREAMT              : 45
+STRING               : 120
+STRINGTYPE           : 54
+TIMES                : 101
+VAR                  : 4
+WHILE                : 75
+error                : 
+
+Nonterminals, with rules where they appear
+
+A1                   : 62 75
+A2                   : 67 68 71
+A3                   : 71
+A3B                  : 71
+ARGS                 : 15 35
+ARRAY                : 114
+ARRAYB               : 104 105
+ASSIGN               : 26 70
+AUXFUNCDEC           : 13
+BLOCK                : 67 73 75
+C1                   : 8 9 37 104 105
+C2                   : 8 9 37 104 105
+CALLARGS             : 41 43
+ELSE_BLOCK           : 71
+EXP                  : 8 9 20 37 44 45 48 48 49 49 61 62 75 79 104 105 110
+EXP2                 : 81
+EXP2_ops             : 84
+EXPR                 : 81 84 93
+EXPR_B               : 91
+EXPR_B_OPS           : 93
+EXPVARID             : 103
+EXPVARIDB            : 8 9 61
+F1                   : 1 13
+F2                   : 
+FACTOR               : 97
+FACTOR_CTE           : 109
+FUNCBLOCK            : 13 25
+FUNCCALL             : 27 69 112
+FUNCDEC              : 2
+F_ARGS               : 14
+F_ELSE               : 67
+F_FUNCDEC            : 1 2
+F_RETURN             : 17
+F_VARDEC             : 1 17
+G1                   : 1
+G2                   : 1
+H_ARGS               : 34
+H_CALLARGS           : 37
+IDVARID              : 111
+IF_ARROW             : 68
+IF_B                 : 62
+IF_BLOCK             : 30 74
+MAIN_BLOCK           : 1
+MUSICFUNCS           : 33
+N0                   : 22
+P4                   : 91
+P5                   : 97
+P6                   : 110
+P7                   : 81
+PLAYFUNCS            : 32
+PRINT                : 31
+PROGRAM              : 0
+RETTYPE              : 14
+RITARG               : 78
+RITORNELLO           : 29
+STATEMENT            : 22
+STATEMENTS           : 17 22 60 78
+TERM                 : 91 99
+TERM_B               : 97
+TERM_B_OPS           : 99
+TYPE                 : 4 11 34
+VARCTE               : 113
+VARDEC               : 18
+VARDECB              : 4 11
+VARID                : 
+VARIDB               : 4 5 6 11
+W1                   : 75
+W2                   : 75
+WHILE_BLOCK          : 28
+e                    : 3 7 10 12 16 19 21 23 24 36 38 39 40 42 63 64 65 66 72 76 77 80 82 83 92 94 98 100 106 115 122 123 124 125
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . PROGRAM
+    (1) PROGRAM -> . COMP ID G1 F_VARDEC G2 F_FUNCDEC F1 MAIN_BLOCK
+
+    COMP            shift and go to state 2
+
+    PROGRAM                        shift and go to state 1
+
+state 1
+
+    (0) S' -> PROGRAM .
+
+
+
+state 2
+
+    (1) PROGRAM -> COMP . ID G1 F_VARDEC G2 F_FUNCDEC F1 MAIN_BLOCK
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) PROGRAM -> COMP ID . G1 F_VARDEC G2 F_FUNCDEC F1 MAIN_BLOCK
+    (124) G1 -> . e
+    (121) e -> .
+
+    VAR             reduce using rule 121 (e -> .)
+    FUNC            reduce using rule 121 (e -> .)
+    MAIN            reduce using rule 121 (e -> .)
+
+    G1                             shift and go to state 4
+    e                              shift and go to state 5
+
+state 4
+
+    (1) PROGRAM -> COMP ID G1 . F_VARDEC G2 F_FUNCDEC F1 MAIN_BLOCK
+    (18) F_VARDEC -> . VARDEC
+    (19) F_VARDEC -> . e
+    (4) VARDEC -> . VAR LPAR TYPE ID VARIDB VARDECB RPAR
+    (121) e -> .
+
+    VAR             shift and go to state 9
+    FUNC            reduce using rule 121 (e -> .)
+    MAIN            reduce using rule 121 (e -> .)
+
+    F_VARDEC                       shift and go to state 6
+    VARDEC                         shift and go to state 7
+    e                              shift and go to state 8
+
+state 5
+
+    (124) G1 -> e .
+
+    VAR             reduce using rule 124 (G1 -> e .)
+    FUNC            reduce using rule 124 (G1 -> e .)
+    MAIN            reduce using rule 124 (G1 -> e .)
+
+
+state 6
+
+    (1) PROGRAM -> COMP ID G1 F_VARDEC . G2 F_FUNCDEC F1 MAIN_BLOCK
+    (125) G2 -> . e
+    (121) e -> .
+
+    FUNC            reduce using rule 121 (e -> .)
+    MAIN            reduce using rule 121 (e -> .)
+
+    G2                             shift and go to state 10
+    e                              shift and go to state 11
+
+state 7
+
+    (18) F_VARDEC -> VARDEC .
+
+    FUNC            reduce using rule 18 (F_VARDEC -> VARDEC .)
+    MAIN            reduce using rule 18 (F_VARDEC -> VARDEC .)
+    ID              reduce using rule 18 (F_VARDEC -> VARDEC .)
+    WHILE           reduce using rule 18 (F_VARDEC -> VARDEC .)
+    LRITT           reduce using rule 18 (F_VARDEC -> VARDEC .)
+    IF              reduce using rule 18 (F_VARDEC -> VARDEC .)
+    DISP            reduce using rule 18 (F_VARDEC -> VARDEC .)
+    PLAYT           reduce using rule 18 (F_VARDEC -> VARDEC .)
+    STREAMT         reduce using rule 18 (F_VARDEC -> VARDEC .)
+    MIDIT           reduce using rule 18 (F_VARDEC -> VARDEC .)
+    MST             reduce using rule 18 (F_VARDEC -> VARDEC .)
+    RETURN          reduce using rule 18 (F_VARDEC -> VARDEC .)
+    RTRIAN          reduce using rule 18 (F_VARDEC -> VARDEC .)
+
+
+state 8
+
+    (19) F_VARDEC -> e .
+
+    FUNC            reduce using rule 19 (F_VARDEC -> e .)
+    MAIN            reduce using rule 19 (F_VARDEC -> e .)
+    ID              reduce using rule 19 (F_VARDEC -> e .)
+    WHILE           reduce using rule 19 (F_VARDEC -> e .)
+    LRITT           reduce using rule 19 (F_VARDEC -> e .)
+    IF              reduce using rule 19 (F_VARDEC -> e .)
+    DISP            reduce using rule 19 (F_VARDEC -> e .)
+    PLAYT           reduce using rule 19 (F_VARDEC -> e .)
+    STREAMT         reduce using rule 19 (F_VARDEC -> e .)
+    MIDIT           reduce using rule 19 (F_VARDEC -> e .)
+    MST             reduce using rule 19 (F_VARDEC -> e .)
+    RETURN          reduce using rule 19 (F_VARDEC -> e .)
+    RTRIAN          reduce using rule 19 (F_VARDEC -> e .)
+
+
+state 9
+
+    (4) VARDEC -> VAR . LPAR TYPE ID VARIDB VARDECB RPAR
+
+    LPAR            shift and go to state 12
+
+
+state 10
+
+    (1) PROGRAM -> COMP ID G1 F_VARDEC G2 . F_FUNCDEC F1 MAIN_BLOCK
+    (2) F_FUNCDEC -> . FUNCDEC F_FUNCDEC
+    (3) F_FUNCDEC -> . e
+    (13) FUNCDEC -> . FUNC F1 AUXFUNCDEC FUNCBLOCK
+    (121) e -> .
+
+    FUNC            shift and go to state 16
+    MAIN            reduce using rule 121 (e -> .)
+
+    F_FUNCDEC                      shift and go to state 13
+    FUNCDEC                        shift and go to state 14
+    e                              shift and go to state 15
+
+state 11
+
+    (125) G2 -> e .
+
+    FUNC            reduce using rule 125 (G2 -> e .)
+    MAIN            reduce using rule 125 (G2 -> e .)
+
+
+state 12
+
+    (4) VARDEC -> VAR LPAR . TYPE ID VARIDB VARDECB RPAR
+    (50) TYPE -> . NUMBERTYPE
+    (51) TYPE -> . LISTTYPE
+    (52) TYPE -> . NOTETYPE
+    (53) TYPE -> . BOOLTYPE
+    (54) TYPE -> . STRINGTYPE
+
+    NUMBERTYPE      shift and go to state 18
+    LISTTYPE        shift and go to state 19
+    NOTETYPE        shift and go to state 20
+    BOOLTYPE        shift and go to state 21
+    STRINGTYPE      shift and go to state 22
+
+    TYPE                           shift and go to state 17
+
+state 13
+
+    (1) PROGRAM -> COMP ID G1 F_VARDEC G2 F_FUNCDEC . F1 MAIN_BLOCK
+    (122) F1 -> . e
+    (121) e -> .
+
+    MAIN            reduce using rule 121 (e -> .)
+
+    F1                             shift and go to state 23
+    e                              shift and go to state 24
+
+state 14
+
+    (2) F_FUNCDEC -> FUNCDEC . F_FUNCDEC
+    (2) F_FUNCDEC -> . FUNCDEC F_FUNCDEC
+    (3) F_FUNCDEC -> . e
+    (13) FUNCDEC -> . FUNC F1 AUXFUNCDEC FUNCBLOCK
+    (121) e -> .
+
+    FUNC            shift and go to state 16
+    MAIN            reduce using rule 121 (e -> .)
+
+    FUNCDEC                        shift and go to state 14
+    F_FUNCDEC                      shift and go to state 25
+    e                              shift and go to state 15
+
+state 15
+
+    (3) F_FUNCDEC -> e .
+
+    MAIN            reduce using rule 3 (F_FUNCDEC -> e .)
+
+
+state 16
+
+    (13) FUNCDEC -> FUNC . F1 AUXFUNCDEC FUNCBLOCK
+    (122) F1 -> . e
+    (121) e -> .
+
+    ID              reduce using rule 121 (e -> .)
+
+    F1                             shift and go to state 26
+    e                              shift and go to state 24
+
+state 17
+
+    (4) VARDEC -> VAR LPAR TYPE . ID VARIDB VARDECB RPAR
+
+    ID              shift and go to state 27
+
+
+state 18
+
+    (50) TYPE -> NUMBERTYPE .
+
+    ID              reduce using rule 50 (TYPE -> NUMBERTYPE .)
+
+
+state 19
+
+    (51) TYPE -> LISTTYPE .
+
+    ID              reduce using rule 51 (TYPE -> LISTTYPE .)
+
+
+state 20
+
+    (52) TYPE -> NOTETYPE .
+
+    ID              reduce using rule 52 (TYPE -> NOTETYPE .)
+
+
+state 21
+
+    (53) TYPE -> BOOLTYPE .
+
+    ID              reduce using rule 53 (TYPE -> BOOLTYPE .)
+
+
+state 22
+
+    (54) TYPE -> STRINGTYPE .
+
+    ID              reduce using rule 54 (TYPE -> STRINGTYPE .)
+
+
+state 23
+
+    (1) PROGRAM -> COMP ID G1 F_VARDEC G2 F_FUNCDEC F1 . MAIN_BLOCK
+    (25) MAIN_BLOCK -> . MAIN FUNCBLOCK
+
+    MAIN            shift and go to state 29
+
+    MAIN_BLOCK                     shift and go to state 28
+
+state 24
+
+    (122) F1 -> e .
+
+    MAIN            reduce using rule 122 (F1 -> e .)
+    ID              reduce using rule 122 (F1 -> e .)
+
+
+state 25
+
+    (2) F_FUNCDEC -> FUNCDEC F_FUNCDEC .
+
+    MAIN            reduce using rule 2 (F_FUNCDEC -> FUNCDEC F_FUNCDEC .)
+
+
+state 26
+
+    (13) FUNCDEC -> FUNC F1 . AUXFUNCDEC FUNCBLOCK
+    (14) AUXFUNCDEC -> . ID DDOT F_ARGS LARROW RETTYPE
+
+    ID              shift and go to state 31
+
+    AUXFUNCDEC                     shift and go to state 30
+
+state 27
+
+    (4) VARDEC -> VAR LPAR TYPE ID . VARIDB VARDECB RPAR
+    (6) VARIDB -> . LSQUARE NUMBER RSQUARE VARIDB
+    (7) VARIDB -> . e
+    (121) e -> .
+
+    LSQUARE         shift and go to state 33
+    COMMA           reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+
+    VARIDB                         shift and go to state 32
+    e                              shift and go to state 34
+
+state 28
+
+    (1) PROGRAM -> COMP ID G1 F_VARDEC G2 F_FUNCDEC F1 MAIN_BLOCK .
+
+    $end            reduce using rule 1 (PROGRAM -> COMP ID G1 F_VARDEC G2 F_FUNCDEC F1 MAIN_BLOCK .)
+
+
+state 29
+
+    (25) MAIN_BLOCK -> MAIN . FUNCBLOCK
+    (17) FUNCBLOCK -> . LTRIAN F_VARDEC STATEMENTS F_RETURN RTRIAN
+
+    LTRIAN          shift and go to state 36
+
+    FUNCBLOCK                      shift and go to state 35
+
+state 30
+
+    (13) FUNCDEC -> FUNC F1 AUXFUNCDEC . FUNCBLOCK
+    (17) FUNCBLOCK -> . LTRIAN F_VARDEC STATEMENTS F_RETURN RTRIAN
+
+    LTRIAN          shift and go to state 36
+
+    FUNCBLOCK                      shift and go to state 37
+
+state 31
+
+    (14) AUXFUNCDEC -> ID . DDOT F_ARGS LARROW RETTYPE
+
+    DDOT            shift and go to state 38
+
+
+state 32
+
+    (4) VARDEC -> VAR LPAR TYPE ID VARIDB . VARDECB RPAR
+    (11) VARDECB -> . COMMA TYPE ID VARIDB VARDECB
+    (12) VARDECB -> . e
+    (121) e -> .
+
+    COMMA           shift and go to state 40
+    RPAR            reduce using rule 121 (e -> .)
+
+    VARDECB                        shift and go to state 39
+    e                              shift and go to state 41
+
+state 33
+
+    (6) VARIDB -> LSQUARE . NUMBER RSQUARE VARIDB
+
+    NUMBER          shift and go to state 42
+
+
+state 34
+
+    (7) VARIDB -> e .
+
+    COMMA           reduce using rule 7 (VARIDB -> e .)
+    RPAR            reduce using rule 7 (VARIDB -> e .)
+
+
+state 35
+
+    (25) MAIN_BLOCK -> MAIN FUNCBLOCK .
+
+    $end            reduce using rule 25 (MAIN_BLOCK -> MAIN FUNCBLOCK .)
+
+
+state 36
+
+    (17) FUNCBLOCK -> LTRIAN . F_VARDEC STATEMENTS F_RETURN RTRIAN
+    (18) F_VARDEC -> . VARDEC
+    (19) F_VARDEC -> . e
+    (4) VARDEC -> . VAR LPAR TYPE ID VARIDB VARDECB RPAR
+    (121) e -> .
+
+    VAR             shift and go to state 9
+    ID              reduce using rule 121 (e -> .)
+    WHILE           reduce using rule 121 (e -> .)
+    LRITT           reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+    DISP            reduce using rule 121 (e -> .)
+    PLAYT           reduce using rule 121 (e -> .)
+    STREAMT         reduce using rule 121 (e -> .)
+    MIDIT           reduce using rule 121 (e -> .)
+    MST             reduce using rule 121 (e -> .)
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+
+    F_VARDEC                       shift and go to state 43
+    VARDEC                         shift and go to state 7
+    e                              shift and go to state 8
+
+state 37
+
+    (13) FUNCDEC -> FUNC F1 AUXFUNCDEC FUNCBLOCK .
+
+    FUNC            reduce using rule 13 (FUNCDEC -> FUNC F1 AUXFUNCDEC FUNCBLOCK .)
+    MAIN            reduce using rule 13 (FUNCDEC -> FUNC F1 AUXFUNCDEC FUNCBLOCK .)
+
+
+state 38
+
+    (14) AUXFUNCDEC -> ID DDOT . F_ARGS LARROW RETTYPE
+    (15) F_ARGS -> . ARGS
+    (16) F_ARGS -> . e
+    (34) ARGS -> . TYPE ID H_ARGS
+    (121) e -> .
+    (50) TYPE -> . NUMBERTYPE
+    (51) TYPE -> . LISTTYPE
+    (52) TYPE -> . NOTETYPE
+    (53) TYPE -> . BOOLTYPE
+    (54) TYPE -> . STRINGTYPE
+
+    LARROW          reduce using rule 121 (e -> .)
+    NUMBERTYPE      shift and go to state 18
+    LISTTYPE        shift and go to state 19
+    NOTETYPE        shift and go to state 20
+    BOOLTYPE        shift and go to state 21
+    STRINGTYPE      shift and go to state 22
+
+    F_ARGS                         shift and go to state 44
+    ARGS                           shift and go to state 45
+    e                              shift and go to state 46
+    TYPE                           shift and go to state 47
+
+state 39
+
+    (4) VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB . RPAR
+
+    RPAR            shift and go to state 48
+
+
+state 40
+
+    (11) VARDECB -> COMMA . TYPE ID VARIDB VARDECB
+    (50) TYPE -> . NUMBERTYPE
+    (51) TYPE -> . LISTTYPE
+    (52) TYPE -> . NOTETYPE
+    (53) TYPE -> . BOOLTYPE
+    (54) TYPE -> . STRINGTYPE
+
+    NUMBERTYPE      shift and go to state 18
+    LISTTYPE        shift and go to state 19
+    NOTETYPE        shift and go to state 20
+    BOOLTYPE        shift and go to state 21
+    STRINGTYPE      shift and go to state 22
+
+    TYPE                           shift and go to state 49
+
+state 41
+
+    (12) VARDECB -> e .
+
+    RPAR            reduce using rule 12 (VARDECB -> e .)
+
+
+state 42
+
+    (6) VARIDB -> LSQUARE NUMBER . RSQUARE VARIDB
+
+    RSQUARE         shift and go to state 50
+
+
+state 43
+
+    (17) FUNCBLOCK -> LTRIAN F_VARDEC . STATEMENTS F_RETURN RTRIAN
+    (22) STATEMENTS -> . STATEMENT N0 STATEMENTS
+    (23) STATEMENTS -> . e
+    (26) STATEMENT -> . ASSIGN SEMICOLON
+    (27) STATEMENT -> . FUNCCALL SEMICOLON
+    (28) STATEMENT -> . WHILE_BLOCK
+    (29) STATEMENT -> . RITORNELLO
+    (30) STATEMENT -> . IF_BLOCK
+    (31) STATEMENT -> . PRINT SEMICOLON
+    (32) STATEMENT -> . PLAYFUNCS SEMICOLON
+    (33) STATEMENT -> . MUSICFUNCS SEMICOLON
+    (121) e -> .
+    (61) ASSIGN -> . ID EXPVARIDB ASSIGNATION EXP
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (75) WHILE_BLOCK -> . WHILE W1 DDOT EXP A1 BLOCK W2
+    (78) RITORNELLO -> . LRITT RITARG STATEMENTS RRITT
+    (62) IF_BLOCK -> . IF DDOT EXP A1 IF_B
+    (44) PRINT -> . DISP LPAR EXP RPAR
+    (48) PLAYFUNCS -> . PLAYT LPAR EXP COMMA EXP RPAR
+    (49) PLAYFUNCS -> . PLAYT LPAR SILENCE COMMA EXP COMMA EXP RPAR
+    (45) MUSICFUNCS -> . STREAMT LPAR EXP RPAR
+    (46) MUSICFUNCS -> . MIDIT LPAR RPAR
+    (47) MUSICFUNCS -> . MST LPAR RPAR
+
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+    ID              shift and go to state 62
+    WHILE           shift and go to state 63
+    LRITT           shift and go to state 64
+    IF              shift and go to state 65
+    DISP            shift and go to state 66
+    PLAYT           shift and go to state 67
+    STREAMT         shift and go to state 68
+    MIDIT           shift and go to state 69
+    MST             shift and go to state 70
+
+    STATEMENTS                     shift and go to state 51
+    STATEMENT                      shift and go to state 52
+    e                              shift and go to state 53
+    ASSIGN                         shift and go to state 54
+    FUNCCALL                       shift and go to state 55
+    WHILE_BLOCK                    shift and go to state 56
+    RITORNELLO                     shift and go to state 57
+    IF_BLOCK                       shift and go to state 58
+    PRINT                          shift and go to state 59
+    PLAYFUNCS                      shift and go to state 60
+    MUSICFUNCS                     shift and go to state 61
+
+state 44
+
+    (14) AUXFUNCDEC -> ID DDOT F_ARGS . LARROW RETTYPE
+
+    LARROW          shift and go to state 71
+
+
+state 45
+
+    (15) F_ARGS -> ARGS .
+
+    LARROW          reduce using rule 15 (F_ARGS -> ARGS .)
+
+
+state 46
+
+    (16) F_ARGS -> e .
+
+    LARROW          reduce using rule 16 (F_ARGS -> e .)
+
+
+state 47
+
+    (34) ARGS -> TYPE . ID H_ARGS
+
+    ID              shift and go to state 72
+
+
+state 48
+
+    (4) VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .
+
+    FUNC            reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    MAIN            reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    ID              reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    WHILE           reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    LRITT           reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    IF              reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    DISP            reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    PLAYT           reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    STREAMT         reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    MIDIT           reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    MST             reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    RETURN          reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+    RTRIAN          reduce using rule 4 (VARDEC -> VAR LPAR TYPE ID VARIDB VARDECB RPAR .)
+
+
+state 49
+
+    (11) VARDECB -> COMMA TYPE . ID VARIDB VARDECB
+
+    ID              shift and go to state 73
+
+
+state 50
+
+    (6) VARIDB -> LSQUARE NUMBER RSQUARE . VARIDB
+    (6) VARIDB -> . LSQUARE NUMBER RSQUARE VARIDB
+    (7) VARIDB -> . e
+    (121) e -> .
+
+    LSQUARE         shift and go to state 33
+    COMMA           reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+
+    VARIDB                         shift and go to state 74
+    e                              shift and go to state 34
+
+state 51
+
+    (17) FUNCBLOCK -> LTRIAN F_VARDEC STATEMENTS . F_RETURN RTRIAN
+    (20) F_RETURN -> . RETURN EXP SEMICOLON
+    (21) F_RETURN -> . e
+    (121) e -> .
+
+    RETURN          shift and go to state 76
+    RTRIAN          reduce using rule 121 (e -> .)
+
+    F_RETURN                       shift and go to state 75
+    e                              shift and go to state 77
+
+state 52
+
+    (22) STATEMENTS -> STATEMENT . N0 STATEMENTS
+    (24) N0 -> . e
+    (121) e -> .
+
+    ID              reduce using rule 121 (e -> .)
+    WHILE           reduce using rule 121 (e -> .)
+    LRITT           reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+    DISP            reduce using rule 121 (e -> .)
+    PLAYT           reduce using rule 121 (e -> .)
+    STREAMT         reduce using rule 121 (e -> .)
+    MIDIT           reduce using rule 121 (e -> .)
+    MST             reduce using rule 121 (e -> .)
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+    RRITT           reduce using rule 121 (e -> .)
+
+    N0                             shift and go to state 78
+    e                              shift and go to state 79
+
+state 53
+
+    (23) STATEMENTS -> e .
+
+    RETURN          reduce using rule 23 (STATEMENTS -> e .)
+    RTRIAN          reduce using rule 23 (STATEMENTS -> e .)
+    RRITT           reduce using rule 23 (STATEMENTS -> e .)
+
+
+state 54
+
+    (26) STATEMENT -> ASSIGN . SEMICOLON
+
+    SEMICOLON       shift and go to state 80
+
+
+state 55
+
+    (27) STATEMENT -> FUNCCALL . SEMICOLON
+
+    SEMICOLON       shift and go to state 81
+
+
+state 56
+
+    (28) STATEMENT -> WHILE_BLOCK .
+
+    ID              reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    WHILE           reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    LRITT           reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    IF              reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    DISP            reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    PLAYT           reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    STREAMT         reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    MIDIT           reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    MST             reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    RETURN          reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    RTRIAN          reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+    RRITT           reduce using rule 28 (STATEMENT -> WHILE_BLOCK .)
+
+
+state 57
+
+    (29) STATEMENT -> RITORNELLO .
+
+    ID              reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    WHILE           reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    LRITT           reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    IF              reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    DISP            reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    PLAYT           reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    STREAMT         reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    MIDIT           reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    MST             reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    RETURN          reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    RTRIAN          reduce using rule 29 (STATEMENT -> RITORNELLO .)
+    RRITT           reduce using rule 29 (STATEMENT -> RITORNELLO .)
+
+
+state 58
+
+    (30) STATEMENT -> IF_BLOCK .
+
+    ID              reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    WHILE           reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    LRITT           reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    IF              reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    DISP            reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    PLAYT           reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    STREAMT         reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    MIDIT           reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    MST             reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    RETURN          reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    RTRIAN          reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+    RRITT           reduce using rule 30 (STATEMENT -> IF_BLOCK .)
+
+
+state 59
+
+    (31) STATEMENT -> PRINT . SEMICOLON
+
+    SEMICOLON       shift and go to state 82
+
+
+state 60
+
+    (32) STATEMENT -> PLAYFUNCS . SEMICOLON
+
+    SEMICOLON       shift and go to state 83
+
+
+state 61
+
+    (33) STATEMENT -> MUSICFUNCS . SEMICOLON
+
+    SEMICOLON       shift and go to state 84
+
+
+state 62
+
+    (61) ASSIGN -> ID . EXPVARIDB ASSIGNATION EXP
+    (43) FUNCCALL -> ID . LPAR CALLARGS RPAR
+    (9) EXPVARIDB -> . LSQUARE C1 EXP C2 RSQUARE EXPVARIDB
+    (10) EXPVARIDB -> . e
+    (121) e -> .
+
+    LPAR            shift and go to state 86
+    LSQUARE         shift and go to state 87
+    ASSIGNATION     reduce using rule 121 (e -> .)
+
+    EXPVARIDB                      shift and go to state 85
+    e                              shift and go to state 88
+
+state 63
+
+    (75) WHILE_BLOCK -> WHILE . W1 DDOT EXP A1 BLOCK W2
+    (76) W1 -> . e
+    (121) e -> .
+
+    DDOT            reduce using rule 121 (e -> .)
+
+    W1                             shift and go to state 89
+    e                              shift and go to state 90
+
+state 64
+
+    (78) RITORNELLO -> LRITT . RITARG STATEMENTS RRITT
+    (79) RITARG -> . LPAR EXP RPAR LARROW
+    (80) RITARG -> . e
+    (121) e -> .
+
+    LPAR            shift and go to state 92
+    ID              reduce using rule 121 (e -> .)
+    WHILE           reduce using rule 121 (e -> .)
+    LRITT           reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+    DISP            reduce using rule 121 (e -> .)
+    PLAYT           reduce using rule 121 (e -> .)
+    STREAMT         reduce using rule 121 (e -> .)
+    MIDIT           reduce using rule 121 (e -> .)
+    MST             reduce using rule 121 (e -> .)
+    RRITT           reduce using rule 121 (e -> .)
+
+    RITARG                         shift and go to state 91
+    e                              shift and go to state 93
+
+state 65
+
+    (62) IF_BLOCK -> IF . DDOT EXP A1 IF_B
+
+    DDOT            shift and go to state 94
+
+
+state 66
+
+    (44) PRINT -> DISP . LPAR EXP RPAR
+
+    LPAR            shift and go to state 95
+
+
+state 67
+
+    (48) PLAYFUNCS -> PLAYT . LPAR EXP COMMA EXP RPAR
+    (49) PLAYFUNCS -> PLAYT . LPAR SILENCE COMMA EXP COMMA EXP RPAR
+
+    LPAR            shift and go to state 96
+
+
+state 68
+
+    (45) MUSICFUNCS -> STREAMT . LPAR EXP RPAR
+
+    LPAR            shift and go to state 97
+
+
+state 69
+
+    (46) MUSICFUNCS -> MIDIT . LPAR RPAR
+
+    LPAR            shift and go to state 98
+
+
+state 70
+
+    (47) MUSICFUNCS -> MST . LPAR RPAR
+
+    LPAR            shift and go to state 99
+
+
+state 71
+
+    (14) AUXFUNCDEC -> ID DDOT F_ARGS LARROW . RETTYPE
+    (55) RETTYPE -> . NUMBERTYPE
+    (56) RETTYPE -> . LISTTYPE
+    (57) RETTYPE -> . NOTETYPE
+    (58) RETTYPE -> . BOOLTYPE
+    (59) RETTYPE -> . SILENCE
+
+    NUMBERTYPE      shift and go to state 101
+    LISTTYPE        shift and go to state 102
+    NOTETYPE        shift and go to state 103
+    BOOLTYPE        shift and go to state 104
+    SILENCE         shift and go to state 105
+
+    RETTYPE                        shift and go to state 100
+
+state 72
+
+    (34) ARGS -> TYPE ID . H_ARGS
+    (35) H_ARGS -> . COMMA ARGS
+    (36) H_ARGS -> . e
+    (121) e -> .
+
+    COMMA           shift and go to state 107
+    LARROW          reduce using rule 121 (e -> .)
+
+    H_ARGS                         shift and go to state 106
+    e                              shift and go to state 108
+
+state 73
+
+    (11) VARDECB -> COMMA TYPE ID . VARIDB VARDECB
+    (6) VARIDB -> . LSQUARE NUMBER RSQUARE VARIDB
+    (7) VARIDB -> . e
+    (121) e -> .
+
+    LSQUARE         shift and go to state 33
+    COMMA           reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+
+    VARIDB                         shift and go to state 109
+    e                              shift and go to state 34
+
+state 74
+
+    (6) VARIDB -> LSQUARE NUMBER RSQUARE VARIDB .
+
+    COMMA           reduce using rule 6 (VARIDB -> LSQUARE NUMBER RSQUARE VARIDB .)
+    RPAR            reduce using rule 6 (VARIDB -> LSQUARE NUMBER RSQUARE VARIDB .)
+
+
+state 75
+
+    (17) FUNCBLOCK -> LTRIAN F_VARDEC STATEMENTS F_RETURN . RTRIAN
+
+    RTRIAN          shift and go to state 110
+
+
+state 76
+
+    (20) F_RETURN -> RETURN . EXP SEMICOLON
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 111
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 77
+
+    (21) F_RETURN -> e .
+
+    RTRIAN          reduce using rule 21 (F_RETURN -> e .)
+
+
+state 78
+
+    (22) STATEMENTS -> STATEMENT N0 . STATEMENTS
+    (22) STATEMENTS -> . STATEMENT N0 STATEMENTS
+    (23) STATEMENTS -> . e
+    (26) STATEMENT -> . ASSIGN SEMICOLON
+    (27) STATEMENT -> . FUNCCALL SEMICOLON
+    (28) STATEMENT -> . WHILE_BLOCK
+    (29) STATEMENT -> . RITORNELLO
+    (30) STATEMENT -> . IF_BLOCK
+    (31) STATEMENT -> . PRINT SEMICOLON
+    (32) STATEMENT -> . PLAYFUNCS SEMICOLON
+    (33) STATEMENT -> . MUSICFUNCS SEMICOLON
+    (121) e -> .
+    (61) ASSIGN -> . ID EXPVARIDB ASSIGNATION EXP
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (75) WHILE_BLOCK -> . WHILE W1 DDOT EXP A1 BLOCK W2
+    (78) RITORNELLO -> . LRITT RITARG STATEMENTS RRITT
+    (62) IF_BLOCK -> . IF DDOT EXP A1 IF_B
+    (44) PRINT -> . DISP LPAR EXP RPAR
+    (48) PLAYFUNCS -> . PLAYT LPAR EXP COMMA EXP RPAR
+    (49) PLAYFUNCS -> . PLAYT LPAR SILENCE COMMA EXP COMMA EXP RPAR
+    (45) MUSICFUNCS -> . STREAMT LPAR EXP RPAR
+    (46) MUSICFUNCS -> . MIDIT LPAR RPAR
+    (47) MUSICFUNCS -> . MST LPAR RPAR
+
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+    RRITT           reduce using rule 121 (e -> .)
+    ID              shift and go to state 62
+    WHILE           shift and go to state 63
+    LRITT           shift and go to state 64
+    IF              shift and go to state 65
+    DISP            shift and go to state 66
+    PLAYT           shift and go to state 67
+    STREAMT         shift and go to state 68
+    MIDIT           shift and go to state 69
+    MST             shift and go to state 70
+
+    STATEMENT                      shift and go to state 52
+    STATEMENTS                     shift and go to state 129
+    e                              shift and go to state 53
+    ASSIGN                         shift and go to state 54
+    FUNCCALL                       shift and go to state 55
+    WHILE_BLOCK                    shift and go to state 56
+    RITORNELLO                     shift and go to state 57
+    IF_BLOCK                       shift and go to state 58
+    PRINT                          shift and go to state 59
+    PLAYFUNCS                      shift and go to state 60
+    MUSICFUNCS                     shift and go to state 61
+
+state 79
+
+    (24) N0 -> e .
+
+    ID              reduce using rule 24 (N0 -> e .)
+    WHILE           reduce using rule 24 (N0 -> e .)
+    LRITT           reduce using rule 24 (N0 -> e .)
+    IF              reduce using rule 24 (N0 -> e .)
+    DISP            reduce using rule 24 (N0 -> e .)
+    PLAYT           reduce using rule 24 (N0 -> e .)
+    STREAMT         reduce using rule 24 (N0 -> e .)
+    MIDIT           reduce using rule 24 (N0 -> e .)
+    MST             reduce using rule 24 (N0 -> e .)
+    RETURN          reduce using rule 24 (N0 -> e .)
+    RTRIAN          reduce using rule 24 (N0 -> e .)
+    RRITT           reduce using rule 24 (N0 -> e .)
+
+
+state 80
+
+    (26) STATEMENT -> ASSIGN SEMICOLON .
+
+    ID              reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    WHILE           reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    LRITT           reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    IF              reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    DISP            reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    PLAYT           reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    STREAMT         reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    MIDIT           reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    MST             reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    RETURN          reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    RTRIAN          reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+    RRITT           reduce using rule 26 (STATEMENT -> ASSIGN SEMICOLON .)
+
+
+state 81
+
+    (27) STATEMENT -> FUNCCALL SEMICOLON .
+
+    ID              reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    WHILE           reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    LRITT           reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    IF              reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    DISP            reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    PLAYT           reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    STREAMT         reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    MIDIT           reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    MST             reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    RETURN          reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    RTRIAN          reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+    RRITT           reduce using rule 27 (STATEMENT -> FUNCCALL SEMICOLON .)
+
+
+state 82
+
+    (31) STATEMENT -> PRINT SEMICOLON .
+
+    ID              reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    WHILE           reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    LRITT           reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    IF              reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    DISP            reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    PLAYT           reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    STREAMT         reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    MIDIT           reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    MST             reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    RETURN          reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    RTRIAN          reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+    RRITT           reduce using rule 31 (STATEMENT -> PRINT SEMICOLON .)
+
+
+state 83
+
+    (32) STATEMENT -> PLAYFUNCS SEMICOLON .
+
+    ID              reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    WHILE           reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    LRITT           reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    IF              reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    DISP            reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    PLAYT           reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    STREAMT         reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    MIDIT           reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    MST             reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    RETURN          reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    RTRIAN          reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+    RRITT           reduce using rule 32 (STATEMENT -> PLAYFUNCS SEMICOLON .)
+
+
+state 84
+
+    (33) STATEMENT -> MUSICFUNCS SEMICOLON .
+
+    ID              reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    WHILE           reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    LRITT           reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    IF              reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    DISP            reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    PLAYT           reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    STREAMT         reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    MIDIT           reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    MST             reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    RETURN          reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    RTRIAN          reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+    RRITT           reduce using rule 33 (STATEMENT -> MUSICFUNCS SEMICOLON .)
+
+
+state 85
+
+    (61) ASSIGN -> ID EXPVARIDB . ASSIGNATION EXP
+
+    ASSIGNATION     shift and go to state 130
+
+
+state 86
+
+    (43) FUNCCALL -> ID LPAR . CALLARGS RPAR
+    (37) CALLARGS -> . C1 EXP C2 H_CALLARGS
+    (38) CALLARGS -> . e
+    (39) C1 -> . e
+    (121) e -> .
+
+    RPAR            reduce using rule 121 (e -> .)
+    NUMBER          reduce using rule 121 (e -> .)
+    ID              reduce using rule 121 (e -> .)
+    LPAR            reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    NOTE            reduce using rule 121 (e -> .)
+    BOOL            reduce using rule 121 (e -> .)
+    STRING          reduce using rule 121 (e -> .)
+    LSQUARE         reduce using rule 121 (e -> .)
+
+    CALLARGS                       shift and go to state 131
+    C1                             shift and go to state 132
+    e                              shift and go to state 133
+
+state 87
+
+    (9) EXPVARIDB -> LSQUARE . C1 EXP C2 RSQUARE EXPVARIDB
+    (39) C1 -> . e
+    (121) e -> .
+
+    NUMBER          reduce using rule 121 (e -> .)
+    ID              reduce using rule 121 (e -> .)
+    LPAR            reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    NOTE            reduce using rule 121 (e -> .)
+    BOOL            reduce using rule 121 (e -> .)
+    STRING          reduce using rule 121 (e -> .)
+    LSQUARE         reduce using rule 121 (e -> .)
+
+    C1                             shift and go to state 134
+    e                              shift and go to state 135
+
+state 88
+
+    (10) EXPVARIDB -> e .
+
+    ASSIGNATION     reduce using rule 10 (EXPVARIDB -> e .)
+    TIMES           reduce using rule 10 (EXPVARIDB -> e .)
+    DIVIDE          reduce using rule 10 (EXPVARIDB -> e .)
+    PLUS            reduce using rule 10 (EXPVARIDB -> e .)
+    MINUS           reduce using rule 10 (EXPVARIDB -> e .)
+    GT              reduce using rule 10 (EXPVARIDB -> e .)
+    LT              reduce using rule 10 (EXPVARIDB -> e .)
+    DIFF            reduce using rule 10 (EXPVARIDB -> e .)
+    EQ              reduce using rule 10 (EXPVARIDB -> e .)
+    OR              reduce using rule 10 (EXPVARIDB -> e .)
+    AND             reduce using rule 10 (EXPVARIDB -> e .)
+    SEMICOLON       reduce using rule 10 (EXPVARIDB -> e .)
+    RPAR            reduce using rule 10 (EXPVARIDB -> e .)
+    LARROW          reduce using rule 10 (EXPVARIDB -> e .)
+    LTRIAN          reduce using rule 10 (EXPVARIDB -> e .)
+    COMMA           reduce using rule 10 (EXPVARIDB -> e .)
+    RSQUARE         reduce using rule 10 (EXPVARIDB -> e .)
+
+
+state 89
+
+    (75) WHILE_BLOCK -> WHILE W1 . DDOT EXP A1 BLOCK W2
+
+    DDOT            shift and go to state 136
+
+
+state 90
+
+    (76) W1 -> e .
+
+    DDOT            reduce using rule 76 (W1 -> e .)
+
+
+state 91
+
+    (78) RITORNELLO -> LRITT RITARG . STATEMENTS RRITT
+    (22) STATEMENTS -> . STATEMENT N0 STATEMENTS
+    (23) STATEMENTS -> . e
+    (26) STATEMENT -> . ASSIGN SEMICOLON
+    (27) STATEMENT -> . FUNCCALL SEMICOLON
+    (28) STATEMENT -> . WHILE_BLOCK
+    (29) STATEMENT -> . RITORNELLO
+    (30) STATEMENT -> . IF_BLOCK
+    (31) STATEMENT -> . PRINT SEMICOLON
+    (32) STATEMENT -> . PLAYFUNCS SEMICOLON
+    (33) STATEMENT -> . MUSICFUNCS SEMICOLON
+    (121) e -> .
+    (61) ASSIGN -> . ID EXPVARIDB ASSIGNATION EXP
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (75) WHILE_BLOCK -> . WHILE W1 DDOT EXP A1 BLOCK W2
+    (78) RITORNELLO -> . LRITT RITARG STATEMENTS RRITT
+    (62) IF_BLOCK -> . IF DDOT EXP A1 IF_B
+    (44) PRINT -> . DISP LPAR EXP RPAR
+    (48) PLAYFUNCS -> . PLAYT LPAR EXP COMMA EXP RPAR
+    (49) PLAYFUNCS -> . PLAYT LPAR SILENCE COMMA EXP COMMA EXP RPAR
+    (45) MUSICFUNCS -> . STREAMT LPAR EXP RPAR
+    (46) MUSICFUNCS -> . MIDIT LPAR RPAR
+    (47) MUSICFUNCS -> . MST LPAR RPAR
+
+    RRITT           reduce using rule 121 (e -> .)
+    ID              shift and go to state 62
+    WHILE           shift and go to state 63
+    LRITT           shift and go to state 64
+    IF              shift and go to state 65
+    DISP            shift and go to state 66
+    PLAYT           shift and go to state 67
+    STREAMT         shift and go to state 68
+    MIDIT           shift and go to state 69
+    MST             shift and go to state 70
+
+    STATEMENTS                     shift and go to state 137
+    STATEMENT                      shift and go to state 52
+    e                              shift and go to state 53
+    ASSIGN                         shift and go to state 54
+    FUNCCALL                       shift and go to state 55
+    WHILE_BLOCK                    shift and go to state 56
+    RITORNELLO                     shift and go to state 57
+    IF_BLOCK                       shift and go to state 58
+    PRINT                          shift and go to state 59
+    PLAYFUNCS                      shift and go to state 60
+    MUSICFUNCS                     shift and go to state 61
+
+state 92
+
+    (79) RITARG -> LPAR . EXP RPAR LARROW
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 138
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 93
+
+    (80) RITARG -> e .
+
+    ID              reduce using rule 80 (RITARG -> e .)
+    WHILE           reduce using rule 80 (RITARG -> e .)
+    LRITT           reduce using rule 80 (RITARG -> e .)
+    IF              reduce using rule 80 (RITARG -> e .)
+    DISP            reduce using rule 80 (RITARG -> e .)
+    PLAYT           reduce using rule 80 (RITARG -> e .)
+    STREAMT         reduce using rule 80 (RITARG -> e .)
+    MIDIT           reduce using rule 80 (RITARG -> e .)
+    MST             reduce using rule 80 (RITARG -> e .)
+    RRITT           reduce using rule 80 (RITARG -> e .)
+
+
+state 94
+
+    (62) IF_BLOCK -> IF DDOT . EXP A1 IF_B
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 139
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 95
+
+    (44) PRINT -> DISP LPAR . EXP RPAR
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 140
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 96
+
+    (48) PLAYFUNCS -> PLAYT LPAR . EXP COMMA EXP RPAR
+    (49) PLAYFUNCS -> PLAYT LPAR . SILENCE COMMA EXP COMMA EXP RPAR
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    SILENCE         shift and go to state 142
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 141
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 97
+
+    (45) MUSICFUNCS -> STREAMT LPAR . EXP RPAR
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 143
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 98
+
+    (46) MUSICFUNCS -> MIDIT LPAR . RPAR
+
+    RPAR            shift and go to state 144
+
+
+state 99
+
+    (47) MUSICFUNCS -> MST LPAR . RPAR
+
+    RPAR            shift and go to state 145
+
+
+state 100
+
+    (14) AUXFUNCDEC -> ID DDOT F_ARGS LARROW RETTYPE .
+
+    LTRIAN          reduce using rule 14 (AUXFUNCDEC -> ID DDOT F_ARGS LARROW RETTYPE .)
+
+
+state 101
+
+    (55) RETTYPE -> NUMBERTYPE .
+
+    LTRIAN          reduce using rule 55 (RETTYPE -> NUMBERTYPE .)
+
+
+state 102
+
+    (56) RETTYPE -> LISTTYPE .
+
+    LTRIAN          reduce using rule 56 (RETTYPE -> LISTTYPE .)
+
+
+state 103
+
+    (57) RETTYPE -> NOTETYPE .
+
+    LTRIAN          reduce using rule 57 (RETTYPE -> NOTETYPE .)
+
+
+state 104
+
+    (58) RETTYPE -> BOOLTYPE .
+
+    LTRIAN          reduce using rule 58 (RETTYPE -> BOOLTYPE .)
+
+
+state 105
+
+    (59) RETTYPE -> SILENCE .
+
+    LTRIAN          reduce using rule 59 (RETTYPE -> SILENCE .)
+
+
+state 106
+
+    (34) ARGS -> TYPE ID H_ARGS .
+
+    LARROW          reduce using rule 34 (ARGS -> TYPE ID H_ARGS .)
+
+
+state 107
+
+    (35) H_ARGS -> COMMA . ARGS
+    (34) ARGS -> . TYPE ID H_ARGS
+    (50) TYPE -> . NUMBERTYPE
+    (51) TYPE -> . LISTTYPE
+    (52) TYPE -> . NOTETYPE
+    (53) TYPE -> . BOOLTYPE
+    (54) TYPE -> . STRINGTYPE
+
+    NUMBERTYPE      shift and go to state 18
+    LISTTYPE        shift and go to state 19
+    NOTETYPE        shift and go to state 20
+    BOOLTYPE        shift and go to state 21
+    STRINGTYPE      shift and go to state 22
+
+    ARGS                           shift and go to state 146
+    TYPE                           shift and go to state 47
+
+state 108
+
+    (36) H_ARGS -> e .
+
+    LARROW          reduce using rule 36 (H_ARGS -> e .)
+
+
+state 109
+
+    (11) VARDECB -> COMMA TYPE ID VARIDB . VARDECB
+    (11) VARDECB -> . COMMA TYPE ID VARIDB VARDECB
+    (12) VARDECB -> . e
+    (121) e -> .
+
+    COMMA           shift and go to state 40
+    RPAR            reduce using rule 121 (e -> .)
+
+    VARDECB                        shift and go to state 147
+    e                              shift and go to state 41
+
+state 110
+
+    (17) FUNCBLOCK -> LTRIAN F_VARDEC STATEMENTS F_RETURN RTRIAN .
+
+    $end            reduce using rule 17 (FUNCBLOCK -> LTRIAN F_VARDEC STATEMENTS F_RETURN RTRIAN .)
+    FUNC            reduce using rule 17 (FUNCBLOCK -> LTRIAN F_VARDEC STATEMENTS F_RETURN RTRIAN .)
+    MAIN            reduce using rule 17 (FUNCBLOCK -> LTRIAN F_VARDEC STATEMENTS F_RETURN RTRIAN .)
+
+
+state 111
+
+    (20) F_RETURN -> RETURN EXP . SEMICOLON
+
+    SEMICOLON       shift and go to state 148
+
+
+state 112
+
+    (81) EXP -> EXPR . EXP2 P7
+    (83) EXP2 -> . e
+    (84) EXP2 -> . EXP2_ops EXPR
+    (121) e -> .
+    (85) EXP2_ops -> . GT
+    (86) EXP2_ops -> . LT
+    (87) EXP2_ops -> . DIFF
+    (88) EXP2_ops -> . EQ
+    (89) EXP2_ops -> . OR
+    (90) EXP2_ops -> . AND
+
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+    GT              shift and go to state 152
+    LT              shift and go to state 153
+    DIFF            shift and go to state 154
+    EQ              shift and go to state 155
+    OR              shift and go to state 156
+    AND             shift and go to state 157
+
+    EXP2                           shift and go to state 149
+    e                              shift and go to state 150
+    EXP2_ops                       shift and go to state 151
+
+state 113
+
+    (91) EXPR -> TERM . P4 EXPR_B
+    (92) P4 -> . e
+    (121) e -> .
+
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    GT              reduce using rule 121 (e -> .)
+    LT              reduce using rule 121 (e -> .)
+    DIFF            reduce using rule 121 (e -> .)
+    EQ              reduce using rule 121 (e -> .)
+    OR              reduce using rule 121 (e -> .)
+    AND             reduce using rule 121 (e -> .)
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    P4                             shift and go to state 158
+    e                              shift and go to state 159
+
+state 114
+
+    (97) TERM -> FACTOR . P5 TERM_B
+    (98) P5 -> . e
+    (121) e -> .
+
+    TIMES           reduce using rule 121 (e -> .)
+    DIVIDE          reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    GT              reduce using rule 121 (e -> .)
+    LT              reduce using rule 121 (e -> .)
+    DIFF            reduce using rule 121 (e -> .)
+    EQ              reduce using rule 121 (e -> .)
+    OR              reduce using rule 121 (e -> .)
+    AND             reduce using rule 121 (e -> .)
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    P5                             shift and go to state 160
+    e                              shift and go to state 161
+
+state 115
+
+    (107) FACTOR -> NUMBER .
+
+    TIMES           reduce using rule 107 (FACTOR -> NUMBER .)
+    DIVIDE          reduce using rule 107 (FACTOR -> NUMBER .)
+    PLUS            reduce using rule 107 (FACTOR -> NUMBER .)
+    MINUS           reduce using rule 107 (FACTOR -> NUMBER .)
+    GT              reduce using rule 107 (FACTOR -> NUMBER .)
+    LT              reduce using rule 107 (FACTOR -> NUMBER .)
+    DIFF            reduce using rule 107 (FACTOR -> NUMBER .)
+    EQ              reduce using rule 107 (FACTOR -> NUMBER .)
+    OR              reduce using rule 107 (FACTOR -> NUMBER .)
+    AND             reduce using rule 107 (FACTOR -> NUMBER .)
+    SEMICOLON       reduce using rule 107 (FACTOR -> NUMBER .)
+    RPAR            reduce using rule 107 (FACTOR -> NUMBER .)
+    LARROW          reduce using rule 107 (FACTOR -> NUMBER .)
+    LTRIAN          reduce using rule 107 (FACTOR -> NUMBER .)
+    COMMA           reduce using rule 107 (FACTOR -> NUMBER .)
+    RSQUARE         reduce using rule 107 (FACTOR -> NUMBER .)
+
+
+state 116
+
+    (108) FACTOR -> ID .
+    (103) IDVARID -> ID . EXPVARID
+    (43) FUNCCALL -> ID . LPAR CALLARGS RPAR
+    (8) EXPVARID -> . LSQUARE C1 EXP C2 RSQUARE EXPVARIDB
+
+    TIMES           reduce using rule 108 (FACTOR -> ID .)
+    DIVIDE          reduce using rule 108 (FACTOR -> ID .)
+    PLUS            reduce using rule 108 (FACTOR -> ID .)
+    MINUS           reduce using rule 108 (FACTOR -> ID .)
+    GT              reduce using rule 108 (FACTOR -> ID .)
+    LT              reduce using rule 108 (FACTOR -> ID .)
+    DIFF            reduce using rule 108 (FACTOR -> ID .)
+    EQ              reduce using rule 108 (FACTOR -> ID .)
+    OR              reduce using rule 108 (FACTOR -> ID .)
+    AND             reduce using rule 108 (FACTOR -> ID .)
+    SEMICOLON       reduce using rule 108 (FACTOR -> ID .)
+    RPAR            reduce using rule 108 (FACTOR -> ID .)
+    LARROW          reduce using rule 108 (FACTOR -> ID .)
+    LTRIAN          reduce using rule 108 (FACTOR -> ID .)
+    COMMA           reduce using rule 108 (FACTOR -> ID .)
+    RSQUARE         reduce using rule 108 (FACTOR -> ID .)
+    LPAR            shift and go to state 86
+    LSQUARE         shift and go to state 163
+
+    EXPVARID                       shift and go to state 162
+
+state 117
+
+    (109) FACTOR -> FACTOR_CTE .
+
+    TIMES           reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    DIVIDE          reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    PLUS            reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    MINUS           reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    GT              reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    LT              reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    DIFF            reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    EQ              reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    OR              reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    AND             reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    SEMICOLON       reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    RPAR            reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    LARROW          reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    LTRIAN          reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    COMMA           reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+    RSQUARE         reduce using rule 109 (FACTOR -> FACTOR_CTE .)
+
+
+state 118
+
+    (110) FACTOR -> LPAR . P6 EXP RPAR
+    (115) P6 -> . e
+    (121) e -> .
+
+    NUMBER          reduce using rule 121 (e -> .)
+    ID              reduce using rule 121 (e -> .)
+    LPAR            reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    NOTE            reduce using rule 121 (e -> .)
+    BOOL            reduce using rule 121 (e -> .)
+    STRING          reduce using rule 121 (e -> .)
+    LSQUARE         reduce using rule 121 (e -> .)
+
+    P6                             shift and go to state 164
+    e                              shift and go to state 165
+
+state 119
+
+    (111) FACTOR -> IDVARID .
+
+    TIMES           reduce using rule 111 (FACTOR -> IDVARID .)
+    DIVIDE          reduce using rule 111 (FACTOR -> IDVARID .)
+    PLUS            reduce using rule 111 (FACTOR -> IDVARID .)
+    MINUS           reduce using rule 111 (FACTOR -> IDVARID .)
+    GT              reduce using rule 111 (FACTOR -> IDVARID .)
+    LT              reduce using rule 111 (FACTOR -> IDVARID .)
+    DIFF            reduce using rule 111 (FACTOR -> IDVARID .)
+    EQ              reduce using rule 111 (FACTOR -> IDVARID .)
+    OR              reduce using rule 111 (FACTOR -> IDVARID .)
+    AND             reduce using rule 111 (FACTOR -> IDVARID .)
+    SEMICOLON       reduce using rule 111 (FACTOR -> IDVARID .)
+    RPAR            reduce using rule 111 (FACTOR -> IDVARID .)
+    LARROW          reduce using rule 111 (FACTOR -> IDVARID .)
+    LTRIAN          reduce using rule 111 (FACTOR -> IDVARID .)
+    COMMA           reduce using rule 111 (FACTOR -> IDVARID .)
+    RSQUARE         reduce using rule 111 (FACTOR -> IDVARID .)
+
+
+state 120
+
+    (112) FACTOR -> FUNCCALL .
+
+    TIMES           reduce using rule 112 (FACTOR -> FUNCCALL .)
+    DIVIDE          reduce using rule 112 (FACTOR -> FUNCCALL .)
+    PLUS            reduce using rule 112 (FACTOR -> FUNCCALL .)
+    MINUS           reduce using rule 112 (FACTOR -> FUNCCALL .)
+    GT              reduce using rule 112 (FACTOR -> FUNCCALL .)
+    LT              reduce using rule 112 (FACTOR -> FUNCCALL .)
+    DIFF            reduce using rule 112 (FACTOR -> FUNCCALL .)
+    EQ              reduce using rule 112 (FACTOR -> FUNCCALL .)
+    OR              reduce using rule 112 (FACTOR -> FUNCCALL .)
+    AND             reduce using rule 112 (FACTOR -> FUNCCALL .)
+    SEMICOLON       reduce using rule 112 (FACTOR -> FUNCCALL .)
+    RPAR            reduce using rule 112 (FACTOR -> FUNCCALL .)
+    LARROW          reduce using rule 112 (FACTOR -> FUNCCALL .)
+    LTRIAN          reduce using rule 112 (FACTOR -> FUNCCALL .)
+    COMMA           reduce using rule 112 (FACTOR -> FUNCCALL .)
+    RSQUARE         reduce using rule 112 (FACTOR -> FUNCCALL .)
+
+
+state 121
+
+    (113) FACTOR -> VARCTE .
+
+    TIMES           reduce using rule 113 (FACTOR -> VARCTE .)
+    DIVIDE          reduce using rule 113 (FACTOR -> VARCTE .)
+    PLUS            reduce using rule 113 (FACTOR -> VARCTE .)
+    MINUS           reduce using rule 113 (FACTOR -> VARCTE .)
+    GT              reduce using rule 113 (FACTOR -> VARCTE .)
+    LT              reduce using rule 113 (FACTOR -> VARCTE .)
+    DIFF            reduce using rule 113 (FACTOR -> VARCTE .)
+    EQ              reduce using rule 113 (FACTOR -> VARCTE .)
+    OR              reduce using rule 113 (FACTOR -> VARCTE .)
+    AND             reduce using rule 113 (FACTOR -> VARCTE .)
+    SEMICOLON       reduce using rule 113 (FACTOR -> VARCTE .)
+    RPAR            reduce using rule 113 (FACTOR -> VARCTE .)
+    LARROW          reduce using rule 113 (FACTOR -> VARCTE .)
+    LTRIAN          reduce using rule 113 (FACTOR -> VARCTE .)
+    COMMA           reduce using rule 113 (FACTOR -> VARCTE .)
+    RSQUARE         reduce using rule 113 (FACTOR -> VARCTE .)
+
+
+state 122
+
+    (114) FACTOR -> ARRAY .
+
+    TIMES           reduce using rule 114 (FACTOR -> ARRAY .)
+    DIVIDE          reduce using rule 114 (FACTOR -> ARRAY .)
+    PLUS            reduce using rule 114 (FACTOR -> ARRAY .)
+    MINUS           reduce using rule 114 (FACTOR -> ARRAY .)
+    GT              reduce using rule 114 (FACTOR -> ARRAY .)
+    LT              reduce using rule 114 (FACTOR -> ARRAY .)
+    DIFF            reduce using rule 114 (FACTOR -> ARRAY .)
+    EQ              reduce using rule 114 (FACTOR -> ARRAY .)
+    OR              reduce using rule 114 (FACTOR -> ARRAY .)
+    AND             reduce using rule 114 (FACTOR -> ARRAY .)
+    SEMICOLON       reduce using rule 114 (FACTOR -> ARRAY .)
+    RPAR            reduce using rule 114 (FACTOR -> ARRAY .)
+    LARROW          reduce using rule 114 (FACTOR -> ARRAY .)
+    LTRIAN          reduce using rule 114 (FACTOR -> ARRAY .)
+    COMMA           reduce using rule 114 (FACTOR -> ARRAY .)
+    RSQUARE         reduce using rule 114 (FACTOR -> ARRAY .)
+
+
+state 123
+
+    (116) FACTOR_CTE -> PLUS . NUMBER
+
+    NUMBER          shift and go to state 166
+
+
+state 124
+
+    (117) FACTOR_CTE -> MINUS . NUMBER
+
+    NUMBER          shift and go to state 167
+
+
+state 125
+
+    (118) VARCTE -> NOTE .
+
+    TIMES           reduce using rule 118 (VARCTE -> NOTE .)
+    DIVIDE          reduce using rule 118 (VARCTE -> NOTE .)
+    PLUS            reduce using rule 118 (VARCTE -> NOTE .)
+    MINUS           reduce using rule 118 (VARCTE -> NOTE .)
+    GT              reduce using rule 118 (VARCTE -> NOTE .)
+    LT              reduce using rule 118 (VARCTE -> NOTE .)
+    DIFF            reduce using rule 118 (VARCTE -> NOTE .)
+    EQ              reduce using rule 118 (VARCTE -> NOTE .)
+    OR              reduce using rule 118 (VARCTE -> NOTE .)
+    AND             reduce using rule 118 (VARCTE -> NOTE .)
+    SEMICOLON       reduce using rule 118 (VARCTE -> NOTE .)
+    RPAR            reduce using rule 118 (VARCTE -> NOTE .)
+    LARROW          reduce using rule 118 (VARCTE -> NOTE .)
+    LTRIAN          reduce using rule 118 (VARCTE -> NOTE .)
+    COMMA           reduce using rule 118 (VARCTE -> NOTE .)
+    RSQUARE         reduce using rule 118 (VARCTE -> NOTE .)
+
+
+state 126
+
+    (119) VARCTE -> BOOL .
+
+    TIMES           reduce using rule 119 (VARCTE -> BOOL .)
+    DIVIDE          reduce using rule 119 (VARCTE -> BOOL .)
+    PLUS            reduce using rule 119 (VARCTE -> BOOL .)
+    MINUS           reduce using rule 119 (VARCTE -> BOOL .)
+    GT              reduce using rule 119 (VARCTE -> BOOL .)
+    LT              reduce using rule 119 (VARCTE -> BOOL .)
+    DIFF            reduce using rule 119 (VARCTE -> BOOL .)
+    EQ              reduce using rule 119 (VARCTE -> BOOL .)
+    OR              reduce using rule 119 (VARCTE -> BOOL .)
+    AND             reduce using rule 119 (VARCTE -> BOOL .)
+    SEMICOLON       reduce using rule 119 (VARCTE -> BOOL .)
+    RPAR            reduce using rule 119 (VARCTE -> BOOL .)
+    LARROW          reduce using rule 119 (VARCTE -> BOOL .)
+    LTRIAN          reduce using rule 119 (VARCTE -> BOOL .)
+    COMMA           reduce using rule 119 (VARCTE -> BOOL .)
+    RSQUARE         reduce using rule 119 (VARCTE -> BOOL .)
+
+
+state 127
+
+    (120) VARCTE -> STRING .
+
+    TIMES           reduce using rule 120 (VARCTE -> STRING .)
+    DIVIDE          reduce using rule 120 (VARCTE -> STRING .)
+    PLUS            reduce using rule 120 (VARCTE -> STRING .)
+    MINUS           reduce using rule 120 (VARCTE -> STRING .)
+    GT              reduce using rule 120 (VARCTE -> STRING .)
+    LT              reduce using rule 120 (VARCTE -> STRING .)
+    DIFF            reduce using rule 120 (VARCTE -> STRING .)
+    EQ              reduce using rule 120 (VARCTE -> STRING .)
+    OR              reduce using rule 120 (VARCTE -> STRING .)
+    AND             reduce using rule 120 (VARCTE -> STRING .)
+    SEMICOLON       reduce using rule 120 (VARCTE -> STRING .)
+    RPAR            reduce using rule 120 (VARCTE -> STRING .)
+    LARROW          reduce using rule 120 (VARCTE -> STRING .)
+    LTRIAN          reduce using rule 120 (VARCTE -> STRING .)
+    COMMA           reduce using rule 120 (VARCTE -> STRING .)
+    RSQUARE         reduce using rule 120 (VARCTE -> STRING .)
+
+
+state 128
+
+    (104) ARRAY -> LSQUARE . C1 EXP C2 ARRAYB RSQUARE
+    (39) C1 -> . e
+    (121) e -> .
+
+    NUMBER          reduce using rule 121 (e -> .)
+    ID              reduce using rule 121 (e -> .)
+    LPAR            reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    NOTE            reduce using rule 121 (e -> .)
+    BOOL            reduce using rule 121 (e -> .)
+    STRING          reduce using rule 121 (e -> .)
+    LSQUARE         reduce using rule 121 (e -> .)
+
+    C1                             shift and go to state 168
+    e                              shift and go to state 135
+
+state 129
+
+    (22) STATEMENTS -> STATEMENT N0 STATEMENTS .
+
+    RETURN          reduce using rule 22 (STATEMENTS -> STATEMENT N0 STATEMENTS .)
+    RTRIAN          reduce using rule 22 (STATEMENTS -> STATEMENT N0 STATEMENTS .)
+    RRITT           reduce using rule 22 (STATEMENTS -> STATEMENT N0 STATEMENTS .)
+
+
+state 130
+
+    (61) ASSIGN -> ID EXPVARIDB ASSIGNATION . EXP
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 169
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 131
+
+    (43) FUNCCALL -> ID LPAR CALLARGS . RPAR
+
+    RPAR            shift and go to state 170
+
+
+state 132
+
+    (37) CALLARGS -> C1 . EXP C2 H_CALLARGS
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 171
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 133
+
+    (38) CALLARGS -> e .
+    (39) C1 -> e .
+
+    RPAR            reduce using rule 38 (CALLARGS -> e .)
+    NUMBER          reduce using rule 39 (C1 -> e .)
+    ID              reduce using rule 39 (C1 -> e .)
+    LPAR            reduce using rule 39 (C1 -> e .)
+    PLUS            reduce using rule 39 (C1 -> e .)
+    MINUS           reduce using rule 39 (C1 -> e .)
+    NOTE            reduce using rule 39 (C1 -> e .)
+    BOOL            reduce using rule 39 (C1 -> e .)
+    STRING          reduce using rule 39 (C1 -> e .)
+    LSQUARE         reduce using rule 39 (C1 -> e .)
+
+
+state 134
+
+    (9) EXPVARIDB -> LSQUARE C1 . EXP C2 RSQUARE EXPVARIDB
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 172
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 135
+
+    (39) C1 -> e .
+
+    NUMBER          reduce using rule 39 (C1 -> e .)
+    ID              reduce using rule 39 (C1 -> e .)
+    LPAR            reduce using rule 39 (C1 -> e .)
+    PLUS            reduce using rule 39 (C1 -> e .)
+    MINUS           reduce using rule 39 (C1 -> e .)
+    NOTE            reduce using rule 39 (C1 -> e .)
+    BOOL            reduce using rule 39 (C1 -> e .)
+    STRING          reduce using rule 39 (C1 -> e .)
+    LSQUARE         reduce using rule 39 (C1 -> e .)
+
+
+state 136
+
+    (75) WHILE_BLOCK -> WHILE W1 DDOT . EXP A1 BLOCK W2
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 173
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 137
+
+    (78) RITORNELLO -> LRITT RITARG STATEMENTS . RRITT
+
+    RRITT           shift and go to state 174
+
+
+state 138
+
+    (79) RITARG -> LPAR EXP . RPAR LARROW
+
+    RPAR            shift and go to state 175
+
+
+state 139
+
+    (62) IF_BLOCK -> IF DDOT EXP . A1 IF_B
+    (63) A1 -> . e
+    (121) e -> .
+
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+
+    A1                             shift and go to state 176
+    e                              shift and go to state 177
+
+state 140
+
+    (44) PRINT -> DISP LPAR EXP . RPAR
+
+    RPAR            shift and go to state 178
+
+
+state 141
+
+    (48) PLAYFUNCS -> PLAYT LPAR EXP . COMMA EXP RPAR
+
+    COMMA           shift and go to state 179
+
+
+state 142
+
+    (49) PLAYFUNCS -> PLAYT LPAR SILENCE . COMMA EXP COMMA EXP RPAR
+
+    COMMA           shift and go to state 180
+
+
+state 143
+
+    (45) MUSICFUNCS -> STREAMT LPAR EXP . RPAR
+
+    RPAR            shift and go to state 181
+
+
+state 144
+
+    (46) MUSICFUNCS -> MIDIT LPAR RPAR .
+
+    SEMICOLON       reduce using rule 46 (MUSICFUNCS -> MIDIT LPAR RPAR .)
+
+
+state 145
+
+    (47) MUSICFUNCS -> MST LPAR RPAR .
+
+    SEMICOLON       reduce using rule 47 (MUSICFUNCS -> MST LPAR RPAR .)
+
+
+state 146
+
+    (35) H_ARGS -> COMMA ARGS .
+
+    LARROW          reduce using rule 35 (H_ARGS -> COMMA ARGS .)
+
+
+state 147
+
+    (11) VARDECB -> COMMA TYPE ID VARIDB VARDECB .
+
+    RPAR            reduce using rule 11 (VARDECB -> COMMA TYPE ID VARIDB VARDECB .)
+
+
+state 148
+
+    (20) F_RETURN -> RETURN EXP SEMICOLON .
+
+    RTRIAN          reduce using rule 20 (F_RETURN -> RETURN EXP SEMICOLON .)
+
+
+state 149
+
+    (81) EXP -> EXPR EXP2 . P7
+    (82) P7 -> . e
+    (121) e -> .
+
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    P7                             shift and go to state 182
+    e                              shift and go to state 183
+
+state 150
+
+    (83) EXP2 -> e .
+
+    SEMICOLON       reduce using rule 83 (EXP2 -> e .)
+    RPAR            reduce using rule 83 (EXP2 -> e .)
+    LARROW          reduce using rule 83 (EXP2 -> e .)
+    LTRIAN          reduce using rule 83 (EXP2 -> e .)
+    COMMA           reduce using rule 83 (EXP2 -> e .)
+    RSQUARE         reduce using rule 83 (EXP2 -> e .)
+
+
+state 151
+
+    (84) EXP2 -> EXP2_ops . EXPR
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXPR                           shift and go to state 184
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 152
+
+    (85) EXP2_ops -> GT .
+
+    NUMBER          reduce using rule 85 (EXP2_ops -> GT .)
+    ID              reduce using rule 85 (EXP2_ops -> GT .)
+    LPAR            reduce using rule 85 (EXP2_ops -> GT .)
+    PLUS            reduce using rule 85 (EXP2_ops -> GT .)
+    MINUS           reduce using rule 85 (EXP2_ops -> GT .)
+    NOTE            reduce using rule 85 (EXP2_ops -> GT .)
+    BOOL            reduce using rule 85 (EXP2_ops -> GT .)
+    STRING          reduce using rule 85 (EXP2_ops -> GT .)
+    LSQUARE         reduce using rule 85 (EXP2_ops -> GT .)
+
+
+state 153
+
+    (86) EXP2_ops -> LT .
+
+    NUMBER          reduce using rule 86 (EXP2_ops -> LT .)
+    ID              reduce using rule 86 (EXP2_ops -> LT .)
+    LPAR            reduce using rule 86 (EXP2_ops -> LT .)
+    PLUS            reduce using rule 86 (EXP2_ops -> LT .)
+    MINUS           reduce using rule 86 (EXP2_ops -> LT .)
+    NOTE            reduce using rule 86 (EXP2_ops -> LT .)
+    BOOL            reduce using rule 86 (EXP2_ops -> LT .)
+    STRING          reduce using rule 86 (EXP2_ops -> LT .)
+    LSQUARE         reduce using rule 86 (EXP2_ops -> LT .)
+
+
+state 154
+
+    (87) EXP2_ops -> DIFF .
+
+    NUMBER          reduce using rule 87 (EXP2_ops -> DIFF .)
+    ID              reduce using rule 87 (EXP2_ops -> DIFF .)
+    LPAR            reduce using rule 87 (EXP2_ops -> DIFF .)
+    PLUS            reduce using rule 87 (EXP2_ops -> DIFF .)
+    MINUS           reduce using rule 87 (EXP2_ops -> DIFF .)
+    NOTE            reduce using rule 87 (EXP2_ops -> DIFF .)
+    BOOL            reduce using rule 87 (EXP2_ops -> DIFF .)
+    STRING          reduce using rule 87 (EXP2_ops -> DIFF .)
+    LSQUARE         reduce using rule 87 (EXP2_ops -> DIFF .)
+
+
+state 155
+
+    (88) EXP2_ops -> EQ .
+
+    NUMBER          reduce using rule 88 (EXP2_ops -> EQ .)
+    ID              reduce using rule 88 (EXP2_ops -> EQ .)
+    LPAR            reduce using rule 88 (EXP2_ops -> EQ .)
+    PLUS            reduce using rule 88 (EXP2_ops -> EQ .)
+    MINUS           reduce using rule 88 (EXP2_ops -> EQ .)
+    NOTE            reduce using rule 88 (EXP2_ops -> EQ .)
+    BOOL            reduce using rule 88 (EXP2_ops -> EQ .)
+    STRING          reduce using rule 88 (EXP2_ops -> EQ .)
+    LSQUARE         reduce using rule 88 (EXP2_ops -> EQ .)
+
+
+state 156
+
+    (89) EXP2_ops -> OR .
+
+    NUMBER          reduce using rule 89 (EXP2_ops -> OR .)
+    ID              reduce using rule 89 (EXP2_ops -> OR .)
+    LPAR            reduce using rule 89 (EXP2_ops -> OR .)
+    PLUS            reduce using rule 89 (EXP2_ops -> OR .)
+    MINUS           reduce using rule 89 (EXP2_ops -> OR .)
+    NOTE            reduce using rule 89 (EXP2_ops -> OR .)
+    BOOL            reduce using rule 89 (EXP2_ops -> OR .)
+    STRING          reduce using rule 89 (EXP2_ops -> OR .)
+    LSQUARE         reduce using rule 89 (EXP2_ops -> OR .)
+
+
+state 157
+
+    (90) EXP2_ops -> AND .
+
+    NUMBER          reduce using rule 90 (EXP2_ops -> AND .)
+    ID              reduce using rule 90 (EXP2_ops -> AND .)
+    LPAR            reduce using rule 90 (EXP2_ops -> AND .)
+    PLUS            reduce using rule 90 (EXP2_ops -> AND .)
+    MINUS           reduce using rule 90 (EXP2_ops -> AND .)
+    NOTE            reduce using rule 90 (EXP2_ops -> AND .)
+    BOOL            reduce using rule 90 (EXP2_ops -> AND .)
+    STRING          reduce using rule 90 (EXP2_ops -> AND .)
+    LSQUARE         reduce using rule 90 (EXP2_ops -> AND .)
+
+
+state 158
+
+    (91) EXPR -> TERM P4 . EXPR_B
+    (93) EXPR_B -> . EXPR_B_OPS EXPR
+    (94) EXPR_B -> . e
+    (95) EXPR_B_OPS -> . PLUS
+    (96) EXPR_B_OPS -> . MINUS
+    (121) e -> .
+
+    PLUS            shift and go to state 188
+    MINUS           shift and go to state 189
+    GT              reduce using rule 121 (e -> .)
+    LT              reduce using rule 121 (e -> .)
+    DIFF            reduce using rule 121 (e -> .)
+    EQ              reduce using rule 121 (e -> .)
+    OR              reduce using rule 121 (e -> .)
+    AND             reduce using rule 121 (e -> .)
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    EXPR_B                         shift and go to state 185
+    EXPR_B_OPS                     shift and go to state 186
+    e                              shift and go to state 187
+
+state 159
+
+    (92) P4 -> e .
+
+    PLUS            reduce using rule 92 (P4 -> e .)
+    MINUS           reduce using rule 92 (P4 -> e .)
+    GT              reduce using rule 92 (P4 -> e .)
+    LT              reduce using rule 92 (P4 -> e .)
+    DIFF            reduce using rule 92 (P4 -> e .)
+    EQ              reduce using rule 92 (P4 -> e .)
+    OR              reduce using rule 92 (P4 -> e .)
+    AND             reduce using rule 92 (P4 -> e .)
+    SEMICOLON       reduce using rule 92 (P4 -> e .)
+    RPAR            reduce using rule 92 (P4 -> e .)
+    LARROW          reduce using rule 92 (P4 -> e .)
+    LTRIAN          reduce using rule 92 (P4 -> e .)
+    COMMA           reduce using rule 92 (P4 -> e .)
+    RSQUARE         reduce using rule 92 (P4 -> e .)
+
+
+state 160
+
+    (97) TERM -> FACTOR P5 . TERM_B
+    (99) TERM_B -> . TERM_B_OPS TERM
+    (100) TERM_B -> . e
+    (101) TERM_B_OPS -> . TIMES
+    (102) TERM_B_OPS -> . DIVIDE
+    (121) e -> .
+
+    TIMES           shift and go to state 193
+    DIVIDE          shift and go to state 194
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    GT              reduce using rule 121 (e -> .)
+    LT              reduce using rule 121 (e -> .)
+    DIFF            reduce using rule 121 (e -> .)
+    EQ              reduce using rule 121 (e -> .)
+    OR              reduce using rule 121 (e -> .)
+    AND             reduce using rule 121 (e -> .)
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    TERM_B                         shift and go to state 190
+    TERM_B_OPS                     shift and go to state 191
+    e                              shift and go to state 192
+
+state 161
+
+    (98) P5 -> e .
+
+    TIMES           reduce using rule 98 (P5 -> e .)
+    DIVIDE          reduce using rule 98 (P5 -> e .)
+    PLUS            reduce using rule 98 (P5 -> e .)
+    MINUS           reduce using rule 98 (P5 -> e .)
+    GT              reduce using rule 98 (P5 -> e .)
+    LT              reduce using rule 98 (P5 -> e .)
+    DIFF            reduce using rule 98 (P5 -> e .)
+    EQ              reduce using rule 98 (P5 -> e .)
+    OR              reduce using rule 98 (P5 -> e .)
+    AND             reduce using rule 98 (P5 -> e .)
+    SEMICOLON       reduce using rule 98 (P5 -> e .)
+    RPAR            reduce using rule 98 (P5 -> e .)
+    LARROW          reduce using rule 98 (P5 -> e .)
+    LTRIAN          reduce using rule 98 (P5 -> e .)
+    COMMA           reduce using rule 98 (P5 -> e .)
+    RSQUARE         reduce using rule 98 (P5 -> e .)
+
+
+state 162
+
+    (103) IDVARID -> ID EXPVARID .
+
+    TIMES           reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    DIVIDE          reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    PLUS            reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    MINUS           reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    GT              reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    LT              reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    DIFF            reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    EQ              reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    OR              reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    AND             reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    SEMICOLON       reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    RPAR            reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    LARROW          reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    LTRIAN          reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    COMMA           reduce using rule 103 (IDVARID -> ID EXPVARID .)
+    RSQUARE         reduce using rule 103 (IDVARID -> ID EXPVARID .)
+
+
+state 163
+
+    (8) EXPVARID -> LSQUARE . C1 EXP C2 RSQUARE EXPVARIDB
+    (39) C1 -> . e
+    (121) e -> .
+
+    NUMBER          reduce using rule 121 (e -> .)
+    ID              reduce using rule 121 (e -> .)
+    LPAR            reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    NOTE            reduce using rule 121 (e -> .)
+    BOOL            reduce using rule 121 (e -> .)
+    STRING          reduce using rule 121 (e -> .)
+    LSQUARE         reduce using rule 121 (e -> .)
+
+    C1                             shift and go to state 195
+    e                              shift and go to state 135
+
+state 164
+
+    (110) FACTOR -> LPAR P6 . EXP RPAR
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 196
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 165
+
+    (115) P6 -> e .
+
+    NUMBER          reduce using rule 115 (P6 -> e .)
+    ID              reduce using rule 115 (P6 -> e .)
+    LPAR            reduce using rule 115 (P6 -> e .)
+    PLUS            reduce using rule 115 (P6 -> e .)
+    MINUS           reduce using rule 115 (P6 -> e .)
+    NOTE            reduce using rule 115 (P6 -> e .)
+    BOOL            reduce using rule 115 (P6 -> e .)
+    STRING          reduce using rule 115 (P6 -> e .)
+    LSQUARE         reduce using rule 115 (P6 -> e .)
+
+
+state 166
+
+    (116) FACTOR_CTE -> PLUS NUMBER .
+
+    TIMES           reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    DIVIDE          reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    PLUS            reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    MINUS           reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    GT              reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    LT              reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    DIFF            reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    EQ              reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    OR              reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    AND             reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    SEMICOLON       reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    RPAR            reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    LARROW          reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    LTRIAN          reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    COMMA           reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+    RSQUARE         reduce using rule 116 (FACTOR_CTE -> PLUS NUMBER .)
+
+
+state 167
+
+    (117) FACTOR_CTE -> MINUS NUMBER .
+
+    TIMES           reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    DIVIDE          reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    PLUS            reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    MINUS           reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    GT              reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    LT              reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    DIFF            reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    EQ              reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    OR              reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    AND             reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    SEMICOLON       reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    RPAR            reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    LARROW          reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    LTRIAN          reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    COMMA           reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+    RSQUARE         reduce using rule 117 (FACTOR_CTE -> MINUS NUMBER .)
+
+
+state 168
+
+    (104) ARRAY -> LSQUARE C1 . EXP C2 ARRAYB RSQUARE
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 197
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 169
+
+    (61) ASSIGN -> ID EXPVARIDB ASSIGNATION EXP .
+
+    SEMICOLON       reduce using rule 61 (ASSIGN -> ID EXPVARIDB ASSIGNATION EXP .)
+
+
+state 170
+
+    (43) FUNCCALL -> ID LPAR CALLARGS RPAR .
+
+    SEMICOLON       reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    TIMES           reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    DIVIDE          reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    PLUS            reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    MINUS           reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    GT              reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    LT              reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    DIFF            reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    EQ              reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    OR              reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    AND             reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    RPAR            reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    LARROW          reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    LTRIAN          reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    COMMA           reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+    RSQUARE         reduce using rule 43 (FUNCCALL -> ID LPAR CALLARGS RPAR .)
+
+
+state 171
+
+    (37) CALLARGS -> C1 EXP . C2 H_CALLARGS
+    (40) C2 -> . e
+    (121) e -> .
+
+    COMMA           reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+
+    C2                             shift and go to state 198
+    e                              shift and go to state 199
+
+state 172
+
+    (9) EXPVARIDB -> LSQUARE C1 EXP . C2 RSQUARE EXPVARIDB
+    (40) C2 -> . e
+    (121) e -> .
+
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    C2                             shift and go to state 200
+    e                              shift and go to state 199
+
+state 173
+
+    (75) WHILE_BLOCK -> WHILE W1 DDOT EXP . A1 BLOCK W2
+    (63) A1 -> . e
+    (121) e -> .
+
+    LTRIAN          reduce using rule 121 (e -> .)
+
+    A1                             shift and go to state 201
+    e                              shift and go to state 177
+
+state 174
+
+    (78) RITORNELLO -> LRITT RITARG STATEMENTS RRITT .
+
+    ID              reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    WHILE           reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    LRITT           reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    IF              reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    DISP            reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    PLAYT           reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    STREAMT         reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    MIDIT           reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    MST             reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    RETURN          reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    RTRIAN          reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+    RRITT           reduce using rule 78 (RITORNELLO -> LRITT RITARG STATEMENTS RRITT .)
+
+
+state 175
+
+    (79) RITARG -> LPAR EXP RPAR . LARROW
+
+    LARROW          shift and go to state 202
+
+
+state 176
+
+    (62) IF_BLOCK -> IF DDOT EXP A1 . IF_B
+    (67) IF_B -> . BLOCK F_ELSE A2
+    (68) IF_B -> . LARROW IF_ARROW SEMICOLON A2
+    (60) BLOCK -> . LTRIAN STATEMENTS RTRIAN
+
+    LARROW          shift and go to state 205
+    LTRIAN          shift and go to state 206
+
+    IF_B                           shift and go to state 203
+    BLOCK                          shift and go to state 204
+
+state 177
+
+    (63) A1 -> e .
+
+    LARROW          reduce using rule 63 (A1 -> e .)
+    LTRIAN          reduce using rule 63 (A1 -> e .)
+
+
+state 178
+
+    (44) PRINT -> DISP LPAR EXP RPAR .
+
+    SEMICOLON       reduce using rule 44 (PRINT -> DISP LPAR EXP RPAR .)
+
+
+state 179
+
+    (48) PLAYFUNCS -> PLAYT LPAR EXP COMMA . EXP RPAR
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 207
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 180
+
+    (49) PLAYFUNCS -> PLAYT LPAR SILENCE COMMA . EXP COMMA EXP RPAR
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 208
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 181
+
+    (45) MUSICFUNCS -> STREAMT LPAR EXP RPAR .
+
+    SEMICOLON       reduce using rule 45 (MUSICFUNCS -> STREAMT LPAR EXP RPAR .)
+
+
+state 182
+
+    (81) EXP -> EXPR EXP2 P7 .
+
+    SEMICOLON       reduce using rule 81 (EXP -> EXPR EXP2 P7 .)
+    RPAR            reduce using rule 81 (EXP -> EXPR EXP2 P7 .)
+    LARROW          reduce using rule 81 (EXP -> EXPR EXP2 P7 .)
+    LTRIAN          reduce using rule 81 (EXP -> EXPR EXP2 P7 .)
+    COMMA           reduce using rule 81 (EXP -> EXPR EXP2 P7 .)
+    RSQUARE         reduce using rule 81 (EXP -> EXPR EXP2 P7 .)
+
+
+state 183
+
+    (82) P7 -> e .
+
+    SEMICOLON       reduce using rule 82 (P7 -> e .)
+    RPAR            reduce using rule 82 (P7 -> e .)
+    LARROW          reduce using rule 82 (P7 -> e .)
+    LTRIAN          reduce using rule 82 (P7 -> e .)
+    COMMA           reduce using rule 82 (P7 -> e .)
+    RSQUARE         reduce using rule 82 (P7 -> e .)
+
+
+state 184
+
+    (84) EXP2 -> EXP2_ops EXPR .
+
+    SEMICOLON       reduce using rule 84 (EXP2 -> EXP2_ops EXPR .)
+    RPAR            reduce using rule 84 (EXP2 -> EXP2_ops EXPR .)
+    LARROW          reduce using rule 84 (EXP2 -> EXP2_ops EXPR .)
+    LTRIAN          reduce using rule 84 (EXP2 -> EXP2_ops EXPR .)
+    COMMA           reduce using rule 84 (EXP2 -> EXP2_ops EXPR .)
+    RSQUARE         reduce using rule 84 (EXP2 -> EXP2_ops EXPR .)
+
+
+state 185
+
+    (91) EXPR -> TERM P4 EXPR_B .
+
+    GT              reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    LT              reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    DIFF            reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    EQ              reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    OR              reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    AND             reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    SEMICOLON       reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    RPAR            reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    LARROW          reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    LTRIAN          reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    COMMA           reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+    RSQUARE         reduce using rule 91 (EXPR -> TERM P4 EXPR_B .)
+
+
+state 186
+
+    (93) EXPR_B -> EXPR_B_OPS . EXPR
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXPR                           shift and go to state 209
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 187
+
+    (94) EXPR_B -> e .
+
+    GT              reduce using rule 94 (EXPR_B -> e .)
+    LT              reduce using rule 94 (EXPR_B -> e .)
+    DIFF            reduce using rule 94 (EXPR_B -> e .)
+    EQ              reduce using rule 94 (EXPR_B -> e .)
+    OR              reduce using rule 94 (EXPR_B -> e .)
+    AND             reduce using rule 94 (EXPR_B -> e .)
+    SEMICOLON       reduce using rule 94 (EXPR_B -> e .)
+    RPAR            reduce using rule 94 (EXPR_B -> e .)
+    LARROW          reduce using rule 94 (EXPR_B -> e .)
+    LTRIAN          reduce using rule 94 (EXPR_B -> e .)
+    COMMA           reduce using rule 94 (EXPR_B -> e .)
+    RSQUARE         reduce using rule 94 (EXPR_B -> e .)
+
+
+state 188
+
+    (95) EXPR_B_OPS -> PLUS .
+
+    NUMBER          reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    ID              reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    LPAR            reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    PLUS            reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    MINUS           reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    NOTE            reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    BOOL            reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    STRING          reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+    LSQUARE         reduce using rule 95 (EXPR_B_OPS -> PLUS .)
+
+
+state 189
+
+    (96) EXPR_B_OPS -> MINUS .
+
+    NUMBER          reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    ID              reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    LPAR            reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    PLUS            reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    MINUS           reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    NOTE            reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    BOOL            reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    STRING          reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+    LSQUARE         reduce using rule 96 (EXPR_B_OPS -> MINUS .)
+
+
+state 190
+
+    (97) TERM -> FACTOR P5 TERM_B .
+
+    PLUS            reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    MINUS           reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    GT              reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    LT              reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    DIFF            reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    EQ              reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    OR              reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    AND             reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    SEMICOLON       reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    RPAR            reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    LARROW          reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    LTRIAN          reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    COMMA           reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+    RSQUARE         reduce using rule 97 (TERM -> FACTOR P5 TERM_B .)
+
+
+state 191
+
+    (99) TERM_B -> TERM_B_OPS . TERM
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    TERM                           shift and go to state 210
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 192
+
+    (100) TERM_B -> e .
+
+    PLUS            reduce using rule 100 (TERM_B -> e .)
+    MINUS           reduce using rule 100 (TERM_B -> e .)
+    GT              reduce using rule 100 (TERM_B -> e .)
+    LT              reduce using rule 100 (TERM_B -> e .)
+    DIFF            reduce using rule 100 (TERM_B -> e .)
+    EQ              reduce using rule 100 (TERM_B -> e .)
+    OR              reduce using rule 100 (TERM_B -> e .)
+    AND             reduce using rule 100 (TERM_B -> e .)
+    SEMICOLON       reduce using rule 100 (TERM_B -> e .)
+    RPAR            reduce using rule 100 (TERM_B -> e .)
+    LARROW          reduce using rule 100 (TERM_B -> e .)
+    LTRIAN          reduce using rule 100 (TERM_B -> e .)
+    COMMA           reduce using rule 100 (TERM_B -> e .)
+    RSQUARE         reduce using rule 100 (TERM_B -> e .)
+
+
+state 193
+
+    (101) TERM_B_OPS -> TIMES .
+
+    NUMBER          reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    ID              reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    LPAR            reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    PLUS            reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    MINUS           reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    NOTE            reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    BOOL            reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    STRING          reduce using rule 101 (TERM_B_OPS -> TIMES .)
+    LSQUARE         reduce using rule 101 (TERM_B_OPS -> TIMES .)
+
+
+state 194
+
+    (102) TERM_B_OPS -> DIVIDE .
+
+    NUMBER          reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    ID              reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    LPAR            reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    PLUS            reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    MINUS           reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    NOTE            reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    BOOL            reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    STRING          reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+    LSQUARE         reduce using rule 102 (TERM_B_OPS -> DIVIDE .)
+
+
+state 195
+
+    (8) EXPVARID -> LSQUARE C1 . EXP C2 RSQUARE EXPVARIDB
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 211
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 196
+
+    (110) FACTOR -> LPAR P6 EXP . RPAR
+
+    RPAR            shift and go to state 212
+
+
+state 197
+
+    (104) ARRAY -> LSQUARE C1 EXP . C2 ARRAYB RSQUARE
+    (40) C2 -> . e
+    (121) e -> .
+
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    C2                             shift and go to state 213
+    e                              shift and go to state 199
+
+state 198
+
+    (37) CALLARGS -> C1 EXP C2 . H_CALLARGS
+    (41) H_CALLARGS -> . COMMA CALLARGS
+    (42) H_CALLARGS -> . e
+    (121) e -> .
+
+    COMMA           shift and go to state 215
+    RPAR            reduce using rule 121 (e -> .)
+
+    H_CALLARGS                     shift and go to state 214
+    e                              shift and go to state 216
+
+state 199
+
+    (40) C2 -> e .
+
+    COMMA           reduce using rule 40 (C2 -> e .)
+    RPAR            reduce using rule 40 (C2 -> e .)
+    RSQUARE         reduce using rule 40 (C2 -> e .)
+
+
+state 200
+
+    (9) EXPVARIDB -> LSQUARE C1 EXP C2 . RSQUARE EXPVARIDB
+
+    RSQUARE         shift and go to state 217
+
+
+state 201
+
+    (75) WHILE_BLOCK -> WHILE W1 DDOT EXP A1 . BLOCK W2
+    (60) BLOCK -> . LTRIAN STATEMENTS RTRIAN
+
+    LTRIAN          shift and go to state 206
+
+    BLOCK                          shift and go to state 218
+
+state 202
+
+    (79) RITARG -> LPAR EXP RPAR LARROW .
+
+    ID              reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    WHILE           reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    LRITT           reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    IF              reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    DISP            reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    PLAYT           reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    STREAMT         reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    MIDIT           reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    MST             reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+    RRITT           reduce using rule 79 (RITARG -> LPAR EXP RPAR LARROW .)
+
+
+state 203
+
+    (62) IF_BLOCK -> IF DDOT EXP A1 IF_B .
+
+    ID              reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    WHILE           reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    LRITT           reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    IF              reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    DISP            reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    PLAYT           reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    STREAMT         reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    MIDIT           reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    MST             reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    RETURN          reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    RTRIAN          reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+    RRITT           reduce using rule 62 (IF_BLOCK -> IF DDOT EXP A1 IF_B .)
+
+
+state 204
+
+    (67) IF_B -> BLOCK . F_ELSE A2
+    (71) F_ELSE -> . ELSE A3 A2 A3B ELSE_BLOCK
+    (72) F_ELSE -> . e
+    (121) e -> .
+
+    ELSE            shift and go to state 220
+    ID              reduce using rule 121 (e -> .)
+    WHILE           reduce using rule 121 (e -> .)
+    LRITT           reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+    DISP            reduce using rule 121 (e -> .)
+    PLAYT           reduce using rule 121 (e -> .)
+    STREAMT         reduce using rule 121 (e -> .)
+    MIDIT           reduce using rule 121 (e -> .)
+    MST             reduce using rule 121 (e -> .)
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+    RRITT           reduce using rule 121 (e -> .)
+
+    F_ELSE                         shift and go to state 219
+    e                              shift and go to state 221
+
+state 205
+
+    (68) IF_B -> LARROW . IF_ARROW SEMICOLON A2
+    (69) IF_ARROW -> . FUNCCALL
+    (70) IF_ARROW -> . ASSIGN
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (61) ASSIGN -> . ID EXPVARIDB ASSIGNATION EXP
+
+    ID              shift and go to state 225
+
+    IF_ARROW                       shift and go to state 222
+    FUNCCALL                       shift and go to state 223
+    ASSIGN                         shift and go to state 224
+
+state 206
+
+    (60) BLOCK -> LTRIAN . STATEMENTS RTRIAN
+    (22) STATEMENTS -> . STATEMENT N0 STATEMENTS
+    (23) STATEMENTS -> . e
+    (26) STATEMENT -> . ASSIGN SEMICOLON
+    (27) STATEMENT -> . FUNCCALL SEMICOLON
+    (28) STATEMENT -> . WHILE_BLOCK
+    (29) STATEMENT -> . RITORNELLO
+    (30) STATEMENT -> . IF_BLOCK
+    (31) STATEMENT -> . PRINT SEMICOLON
+    (32) STATEMENT -> . PLAYFUNCS SEMICOLON
+    (33) STATEMENT -> . MUSICFUNCS SEMICOLON
+    (121) e -> .
+    (61) ASSIGN -> . ID EXPVARIDB ASSIGNATION EXP
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (75) WHILE_BLOCK -> . WHILE W1 DDOT EXP A1 BLOCK W2
+    (78) RITORNELLO -> . LRITT RITARG STATEMENTS RRITT
+    (62) IF_BLOCK -> . IF DDOT EXP A1 IF_B
+    (44) PRINT -> . DISP LPAR EXP RPAR
+    (48) PLAYFUNCS -> . PLAYT LPAR EXP COMMA EXP RPAR
+    (49) PLAYFUNCS -> . PLAYT LPAR SILENCE COMMA EXP COMMA EXP RPAR
+    (45) MUSICFUNCS -> . STREAMT LPAR EXP RPAR
+    (46) MUSICFUNCS -> . MIDIT LPAR RPAR
+    (47) MUSICFUNCS -> . MST LPAR RPAR
+
+    RTRIAN          reduce using rule 121 (e -> .)
+    ID              shift and go to state 62
+    WHILE           shift and go to state 63
+    LRITT           shift and go to state 64
+    IF              shift and go to state 65
+    DISP            shift and go to state 66
+    PLAYT           shift and go to state 67
+    STREAMT         shift and go to state 68
+    MIDIT           shift and go to state 69
+    MST             shift and go to state 70
+
+    STATEMENTS                     shift and go to state 226
+    STATEMENT                      shift and go to state 52
+    e                              shift and go to state 53
+    ASSIGN                         shift and go to state 54
+    FUNCCALL                       shift and go to state 55
+    WHILE_BLOCK                    shift and go to state 56
+    RITORNELLO                     shift and go to state 57
+    IF_BLOCK                       shift and go to state 58
+    PRINT                          shift and go to state 59
+    PLAYFUNCS                      shift and go to state 60
+    MUSICFUNCS                     shift and go to state 61
+
+state 207
+
+    (48) PLAYFUNCS -> PLAYT LPAR EXP COMMA EXP . RPAR
+
+    RPAR            shift and go to state 227
+
+
+state 208
+
+    (49) PLAYFUNCS -> PLAYT LPAR SILENCE COMMA EXP . COMMA EXP RPAR
+
+    COMMA           shift and go to state 228
+
+
+state 209
+
+    (93) EXPR_B -> EXPR_B_OPS EXPR .
+
+    GT              reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    LT              reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    DIFF            reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    EQ              reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    OR              reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    AND             reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    SEMICOLON       reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    RPAR            reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    LARROW          reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    LTRIAN          reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    COMMA           reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+    RSQUARE         reduce using rule 93 (EXPR_B -> EXPR_B_OPS EXPR .)
+
+
+state 210
+
+    (99) TERM_B -> TERM_B_OPS TERM .
+
+    PLUS            reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    MINUS           reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    GT              reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    LT              reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    DIFF            reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    EQ              reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    OR              reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    AND             reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    SEMICOLON       reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    RPAR            reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    LARROW          reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    LTRIAN          reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    COMMA           reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+    RSQUARE         reduce using rule 99 (TERM_B -> TERM_B_OPS TERM .)
+
+
+state 211
+
+    (8) EXPVARID -> LSQUARE C1 EXP . C2 RSQUARE EXPVARIDB
+    (40) C2 -> . e
+    (121) e -> .
+
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    C2                             shift and go to state 229
+    e                              shift and go to state 199
+
+state 212
+
+    (110) FACTOR -> LPAR P6 EXP RPAR .
+
+    TIMES           reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    DIVIDE          reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    PLUS            reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    MINUS           reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    GT              reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    LT              reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    DIFF            reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    EQ              reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    OR              reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    AND             reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    SEMICOLON       reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    RPAR            reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    LARROW          reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    LTRIAN          reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    COMMA           reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+    RSQUARE         reduce using rule 110 (FACTOR -> LPAR P6 EXP RPAR .)
+
+
+state 213
+
+    (104) ARRAY -> LSQUARE C1 EXP C2 . ARRAYB RSQUARE
+    (105) ARRAYB -> . COMMA C1 EXP C2 ARRAYB
+    (106) ARRAYB -> . e
+    (121) e -> .
+
+    COMMA           shift and go to state 231
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    ARRAYB                         shift and go to state 230
+    e                              shift and go to state 232
+
+state 214
+
+    (37) CALLARGS -> C1 EXP C2 H_CALLARGS .
+
+    RPAR            reduce using rule 37 (CALLARGS -> C1 EXP C2 H_CALLARGS .)
+
+
+state 215
+
+    (41) H_CALLARGS -> COMMA . CALLARGS
+    (37) CALLARGS -> . C1 EXP C2 H_CALLARGS
+    (38) CALLARGS -> . e
+    (39) C1 -> . e
+    (121) e -> .
+
+    RPAR            reduce using rule 121 (e -> .)
+    NUMBER          reduce using rule 121 (e -> .)
+    ID              reduce using rule 121 (e -> .)
+    LPAR            reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    NOTE            reduce using rule 121 (e -> .)
+    BOOL            reduce using rule 121 (e -> .)
+    STRING          reduce using rule 121 (e -> .)
+    LSQUARE         reduce using rule 121 (e -> .)
+
+    CALLARGS                       shift and go to state 233
+    C1                             shift and go to state 132
+    e                              shift and go to state 133
+
+state 216
+
+    (42) H_CALLARGS -> e .
+
+    RPAR            reduce using rule 42 (H_CALLARGS -> e .)
+
+
+state 217
+
+    (9) EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE . EXPVARIDB
+    (9) EXPVARIDB -> . LSQUARE C1 EXP C2 RSQUARE EXPVARIDB
+    (10) EXPVARIDB -> . e
+    (121) e -> .
+
+    LSQUARE         shift and go to state 87
+    ASSIGNATION     reduce using rule 121 (e -> .)
+    TIMES           reduce using rule 121 (e -> .)
+    DIVIDE          reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    GT              reduce using rule 121 (e -> .)
+    LT              reduce using rule 121 (e -> .)
+    DIFF            reduce using rule 121 (e -> .)
+    EQ              reduce using rule 121 (e -> .)
+    OR              reduce using rule 121 (e -> .)
+    AND             reduce using rule 121 (e -> .)
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    EXPVARIDB                      shift and go to state 234
+    e                              shift and go to state 88
+
+state 218
+
+    (75) WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK . W2
+    (77) W2 -> . e
+    (121) e -> .
+
+    ID              reduce using rule 121 (e -> .)
+    WHILE           reduce using rule 121 (e -> .)
+    LRITT           reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+    DISP            reduce using rule 121 (e -> .)
+    PLAYT           reduce using rule 121 (e -> .)
+    STREAMT         reduce using rule 121 (e -> .)
+    MIDIT           reduce using rule 121 (e -> .)
+    MST             reduce using rule 121 (e -> .)
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+    RRITT           reduce using rule 121 (e -> .)
+
+    W2                             shift and go to state 235
+    e                              shift and go to state 236
+
+state 219
+
+    (67) IF_B -> BLOCK F_ELSE . A2
+    (64) A2 -> . e
+    (121) e -> .
+
+    ID              reduce using rule 121 (e -> .)
+    WHILE           reduce using rule 121 (e -> .)
+    LRITT           reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+    DISP            reduce using rule 121 (e -> .)
+    PLAYT           reduce using rule 121 (e -> .)
+    STREAMT         reduce using rule 121 (e -> .)
+    MIDIT           reduce using rule 121 (e -> .)
+    MST             reduce using rule 121 (e -> .)
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+    RRITT           reduce using rule 121 (e -> .)
+
+    A2                             shift and go to state 237
+    e                              shift and go to state 238
+
+state 220
+
+    (71) F_ELSE -> ELSE . A3 A2 A3B ELSE_BLOCK
+    (65) A3 -> . e
+    (121) e -> .
+
+    LTRIAN          reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+
+    A3                             shift and go to state 239
+    e                              shift and go to state 240
+
+state 221
+
+    (72) F_ELSE -> e .
+
+    ID              reduce using rule 72 (F_ELSE -> e .)
+    WHILE           reduce using rule 72 (F_ELSE -> e .)
+    LRITT           reduce using rule 72 (F_ELSE -> e .)
+    IF              reduce using rule 72 (F_ELSE -> e .)
+    DISP            reduce using rule 72 (F_ELSE -> e .)
+    PLAYT           reduce using rule 72 (F_ELSE -> e .)
+    STREAMT         reduce using rule 72 (F_ELSE -> e .)
+    MIDIT           reduce using rule 72 (F_ELSE -> e .)
+    MST             reduce using rule 72 (F_ELSE -> e .)
+    RETURN          reduce using rule 72 (F_ELSE -> e .)
+    RTRIAN          reduce using rule 72 (F_ELSE -> e .)
+    RRITT           reduce using rule 72 (F_ELSE -> e .)
+
+
+state 222
+
+    (68) IF_B -> LARROW IF_ARROW . SEMICOLON A2
+
+    SEMICOLON       shift and go to state 241
+
+
+state 223
+
+    (69) IF_ARROW -> FUNCCALL .
+
+    SEMICOLON       reduce using rule 69 (IF_ARROW -> FUNCCALL .)
+
+
+state 224
+
+    (70) IF_ARROW -> ASSIGN .
+
+    SEMICOLON       reduce using rule 70 (IF_ARROW -> ASSIGN .)
+
+
+state 225
+
+    (43) FUNCCALL -> ID . LPAR CALLARGS RPAR
+    (61) ASSIGN -> ID . EXPVARIDB ASSIGNATION EXP
+    (9) EXPVARIDB -> . LSQUARE C1 EXP C2 RSQUARE EXPVARIDB
+    (10) EXPVARIDB -> . e
+    (121) e -> .
+
+    LPAR            shift and go to state 86
+    LSQUARE         shift and go to state 87
+    ASSIGNATION     reduce using rule 121 (e -> .)
+
+    EXPVARIDB                      shift and go to state 85
+    e                              shift and go to state 88
+
+state 226
+
+    (60) BLOCK -> LTRIAN STATEMENTS . RTRIAN
+
+    RTRIAN          shift and go to state 242
+
+
+state 227
+
+    (48) PLAYFUNCS -> PLAYT LPAR EXP COMMA EXP RPAR .
+
+    SEMICOLON       reduce using rule 48 (PLAYFUNCS -> PLAYT LPAR EXP COMMA EXP RPAR .)
+
+
+state 228
+
+    (49) PLAYFUNCS -> PLAYT LPAR SILENCE COMMA EXP COMMA . EXP RPAR
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 243
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 229
+
+    (8) EXPVARID -> LSQUARE C1 EXP C2 . RSQUARE EXPVARIDB
+
+    RSQUARE         shift and go to state 244
+
+
+state 230
+
+    (104) ARRAY -> LSQUARE C1 EXP C2 ARRAYB . RSQUARE
+
+    RSQUARE         shift and go to state 245
+
+
+state 231
+
+    (105) ARRAYB -> COMMA . C1 EXP C2 ARRAYB
+    (39) C1 -> . e
+    (121) e -> .
+
+    NUMBER          reduce using rule 121 (e -> .)
+    ID              reduce using rule 121 (e -> .)
+    LPAR            reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    NOTE            reduce using rule 121 (e -> .)
+    BOOL            reduce using rule 121 (e -> .)
+    STRING          reduce using rule 121 (e -> .)
+    LSQUARE         reduce using rule 121 (e -> .)
+
+    C1                             shift and go to state 246
+    e                              shift and go to state 135
+
+state 232
+
+    (106) ARRAYB -> e .
+
+    RSQUARE         reduce using rule 106 (ARRAYB -> e .)
+
+
+state 233
+
+    (41) H_CALLARGS -> COMMA CALLARGS .
+
+    RPAR            reduce using rule 41 (H_CALLARGS -> COMMA CALLARGS .)
+
+
+state 234
+
+    (9) EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .
+
+    ASSIGNATION     reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    TIMES           reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    DIVIDE          reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    PLUS            reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    MINUS           reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    GT              reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    LT              reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    DIFF            reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    EQ              reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    OR              reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    AND             reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    SEMICOLON       reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    RPAR            reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    LARROW          reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    LTRIAN          reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    COMMA           reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    RSQUARE         reduce using rule 9 (EXPVARIDB -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+
+
+state 235
+
+    (75) WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .
+
+    ID              reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    WHILE           reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    LRITT           reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    IF              reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    DISP            reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    PLAYT           reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    STREAMT         reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    MIDIT           reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    MST             reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    RETURN          reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    RTRIAN          reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+    RRITT           reduce using rule 75 (WHILE_BLOCK -> WHILE W1 DDOT EXP A1 BLOCK W2 .)
+
+
+state 236
+
+    (77) W2 -> e .
+
+    ID              reduce using rule 77 (W2 -> e .)
+    WHILE           reduce using rule 77 (W2 -> e .)
+    LRITT           reduce using rule 77 (W2 -> e .)
+    IF              reduce using rule 77 (W2 -> e .)
+    DISP            reduce using rule 77 (W2 -> e .)
+    PLAYT           reduce using rule 77 (W2 -> e .)
+    STREAMT         reduce using rule 77 (W2 -> e .)
+    MIDIT           reduce using rule 77 (W2 -> e .)
+    MST             reduce using rule 77 (W2 -> e .)
+    RETURN          reduce using rule 77 (W2 -> e .)
+    RTRIAN          reduce using rule 77 (W2 -> e .)
+    RRITT           reduce using rule 77 (W2 -> e .)
+
+
+state 237
+
+    (67) IF_B -> BLOCK F_ELSE A2 .
+
+    ID              reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    WHILE           reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    LRITT           reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    IF              reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    DISP            reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    PLAYT           reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    STREAMT         reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    MIDIT           reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    MST             reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    RETURN          reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    RTRIAN          reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+    RRITT           reduce using rule 67 (IF_B -> BLOCK F_ELSE A2 .)
+
+
+state 238
+
+    (64) A2 -> e .
+
+    ID              reduce using rule 64 (A2 -> e .)
+    WHILE           reduce using rule 64 (A2 -> e .)
+    LRITT           reduce using rule 64 (A2 -> e .)
+    IF              reduce using rule 64 (A2 -> e .)
+    DISP            reduce using rule 64 (A2 -> e .)
+    PLAYT           reduce using rule 64 (A2 -> e .)
+    STREAMT         reduce using rule 64 (A2 -> e .)
+    MIDIT           reduce using rule 64 (A2 -> e .)
+    MST             reduce using rule 64 (A2 -> e .)
+    RETURN          reduce using rule 64 (A2 -> e .)
+    RTRIAN          reduce using rule 64 (A2 -> e .)
+    RRITT           reduce using rule 64 (A2 -> e .)
+    LTRIAN          reduce using rule 64 (A2 -> e .)
+
+
+state 239
+
+    (71) F_ELSE -> ELSE A3 . A2 A3B ELSE_BLOCK
+    (64) A2 -> . e
+    (121) e -> .
+
+    LTRIAN          reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+
+    A2                             shift and go to state 247
+    e                              shift and go to state 238
+
+state 240
+
+    (65) A3 -> e .
+
+    LTRIAN          reduce using rule 65 (A3 -> e .)
+    IF              reduce using rule 65 (A3 -> e .)
+
+
+state 241
+
+    (68) IF_B -> LARROW IF_ARROW SEMICOLON . A2
+    (64) A2 -> . e
+    (121) e -> .
+
+    ID              reduce using rule 121 (e -> .)
+    WHILE           reduce using rule 121 (e -> .)
+    LRITT           reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+    DISP            reduce using rule 121 (e -> .)
+    PLAYT           reduce using rule 121 (e -> .)
+    STREAMT         reduce using rule 121 (e -> .)
+    MIDIT           reduce using rule 121 (e -> .)
+    MST             reduce using rule 121 (e -> .)
+    RETURN          reduce using rule 121 (e -> .)
+    RTRIAN          reduce using rule 121 (e -> .)
+    RRITT           reduce using rule 121 (e -> .)
+
+    A2                             shift and go to state 248
+    e                              shift and go to state 238
+
+state 242
+
+    (60) BLOCK -> LTRIAN STATEMENTS RTRIAN .
+
+    ELSE            reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    ID              reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    WHILE           reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    LRITT           reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    IF              reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    DISP            reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    PLAYT           reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    STREAMT         reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    MIDIT           reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    MST             reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    RETURN          reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    RTRIAN          reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+    RRITT           reduce using rule 60 (BLOCK -> LTRIAN STATEMENTS RTRIAN .)
+
+
+state 243
+
+    (49) PLAYFUNCS -> PLAYT LPAR SILENCE COMMA EXP COMMA EXP . RPAR
+
+    RPAR            shift and go to state 249
+
+
+state 244
+
+    (8) EXPVARID -> LSQUARE C1 EXP C2 RSQUARE . EXPVARIDB
+    (9) EXPVARIDB -> . LSQUARE C1 EXP C2 RSQUARE EXPVARIDB
+    (10) EXPVARIDB -> . e
+    (121) e -> .
+
+    LSQUARE         shift and go to state 87
+    TIMES           reduce using rule 121 (e -> .)
+    DIVIDE          reduce using rule 121 (e -> .)
+    PLUS            reduce using rule 121 (e -> .)
+    MINUS           reduce using rule 121 (e -> .)
+    GT              reduce using rule 121 (e -> .)
+    LT              reduce using rule 121 (e -> .)
+    DIFF            reduce using rule 121 (e -> .)
+    EQ              reduce using rule 121 (e -> .)
+    OR              reduce using rule 121 (e -> .)
+    AND             reduce using rule 121 (e -> .)
+    SEMICOLON       reduce using rule 121 (e -> .)
+    RPAR            reduce using rule 121 (e -> .)
+    LARROW          reduce using rule 121 (e -> .)
+    LTRIAN          reduce using rule 121 (e -> .)
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    EXPVARIDB                      shift and go to state 250
+    e                              shift and go to state 88
+
+state 245
+
+    (104) ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .
+
+    TIMES           reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    DIVIDE          reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    PLUS            reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    MINUS           reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    GT              reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    LT              reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    DIFF            reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    EQ              reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    OR              reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    AND             reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    SEMICOLON       reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    RPAR            reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    LARROW          reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    LTRIAN          reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    COMMA           reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+    RSQUARE         reduce using rule 104 (ARRAY -> LSQUARE C1 EXP C2 ARRAYB RSQUARE .)
+
+
+state 246
+
+    (105) ARRAYB -> COMMA C1 . EXP C2 ARRAYB
+    (81) EXP -> . EXPR EXP2 P7
+    (91) EXPR -> . TERM P4 EXPR_B
+    (97) TERM -> . FACTOR P5 TERM_B
+    (107) FACTOR -> . NUMBER
+    (108) FACTOR -> . ID
+    (109) FACTOR -> . FACTOR_CTE
+    (110) FACTOR -> . LPAR P6 EXP RPAR
+    (111) FACTOR -> . IDVARID
+    (112) FACTOR -> . FUNCCALL
+    (113) FACTOR -> . VARCTE
+    (114) FACTOR -> . ARRAY
+    (116) FACTOR_CTE -> . PLUS NUMBER
+    (117) FACTOR_CTE -> . MINUS NUMBER
+    (103) IDVARID -> . ID EXPVARID
+    (43) FUNCCALL -> . ID LPAR CALLARGS RPAR
+    (118) VARCTE -> . NOTE
+    (119) VARCTE -> . BOOL
+    (120) VARCTE -> . STRING
+    (104) ARRAY -> . LSQUARE C1 EXP C2 ARRAYB RSQUARE
+
+    NUMBER          shift and go to state 115
+    ID              shift and go to state 116
+    LPAR            shift and go to state 118
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    NOTE            shift and go to state 125
+    BOOL            shift and go to state 126
+    STRING          shift and go to state 127
+    LSQUARE         shift and go to state 128
+
+    EXP                            shift and go to state 251
+    EXPR                           shift and go to state 112
+    TERM                           shift and go to state 113
+    FACTOR                         shift and go to state 114
+    FACTOR_CTE                     shift and go to state 117
+    IDVARID                        shift and go to state 119
+    FUNCCALL                       shift and go to state 120
+    VARCTE                         shift and go to state 121
+    ARRAY                          shift and go to state 122
+
+state 247
+
+    (71) F_ELSE -> ELSE A3 A2 . A3B ELSE_BLOCK
+    (66) A3B -> . e
+    (121) e -> .
+
+    LTRIAN          reduce using rule 121 (e -> .)
+    IF              reduce using rule 121 (e -> .)
+
+    A3B                            shift and go to state 252
+    e                              shift and go to state 253
+
+state 248
+
+    (68) IF_B -> LARROW IF_ARROW SEMICOLON A2 .
+
+    ID              reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    WHILE           reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    LRITT           reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    IF              reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    DISP            reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    PLAYT           reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    STREAMT         reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    MIDIT           reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    MST             reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    RETURN          reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    RTRIAN          reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+    RRITT           reduce using rule 68 (IF_B -> LARROW IF_ARROW SEMICOLON A2 .)
+
+
+state 249
+
+    (49) PLAYFUNCS -> PLAYT LPAR SILENCE COMMA EXP COMMA EXP RPAR .
+
+    SEMICOLON       reduce using rule 49 (PLAYFUNCS -> PLAYT LPAR SILENCE COMMA EXP COMMA EXP RPAR .)
+
+
+state 250
+
+    (8) EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .
+
+    TIMES           reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    DIVIDE          reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    PLUS            reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    MINUS           reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    GT              reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    LT              reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    DIFF            reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    EQ              reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    OR              reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    AND             reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    SEMICOLON       reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    RPAR            reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    LARROW          reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    LTRIAN          reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    COMMA           reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+    RSQUARE         reduce using rule 8 (EXPVARID -> LSQUARE C1 EXP C2 RSQUARE EXPVARIDB .)
+
+
+state 251
+
+    (105) ARRAYB -> COMMA C1 EXP . C2 ARRAYB
+    (40) C2 -> . e
+    (121) e -> .
+
+    COMMA           reduce using rule 121 (e -> .)
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    C2                             shift and go to state 254
+    e                              shift and go to state 199
+
+state 252
+
+    (71) F_ELSE -> ELSE A3 A2 A3B . ELSE_BLOCK
+    (73) ELSE_BLOCK -> . BLOCK
+    (74) ELSE_BLOCK -> . IF_BLOCK
+    (60) BLOCK -> . LTRIAN STATEMENTS RTRIAN
+    (62) IF_BLOCK -> . IF DDOT EXP A1 IF_B
+
+    LTRIAN          shift and go to state 206
+    IF              shift and go to state 65
+
+    ELSE_BLOCK                     shift and go to state 255
+    BLOCK                          shift and go to state 256
+    IF_BLOCK                       shift and go to state 257
+
+state 253
+
+    (66) A3B -> e .
+
+    LTRIAN          reduce using rule 66 (A3B -> e .)
+    IF              reduce using rule 66 (A3B -> e .)
+
+
+state 254
+
+    (105) ARRAYB -> COMMA C1 EXP C2 . ARRAYB
+    (105) ARRAYB -> . COMMA C1 EXP C2 ARRAYB
+    (106) ARRAYB -> . e
+    (121) e -> .
+
+    COMMA           shift and go to state 231
+    RSQUARE         reduce using rule 121 (e -> .)
+
+    ARRAYB                         shift and go to state 258
+    e                              shift and go to state 232
+
+state 255
+
+    (71) F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .
+
+    ID              reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    WHILE           reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    LRITT           reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    IF              reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    DISP            reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    PLAYT           reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    STREAMT         reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    MIDIT           reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    MST             reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    RETURN          reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    RTRIAN          reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+    RRITT           reduce using rule 71 (F_ELSE -> ELSE A3 A2 A3B ELSE_BLOCK .)
+
+
+state 256
+
+    (73) ELSE_BLOCK -> BLOCK .
+
+    ID              reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    WHILE           reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    LRITT           reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    IF              reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    DISP            reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    PLAYT           reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    STREAMT         reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    MIDIT           reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    MST             reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    RETURN          reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    RTRIAN          reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+    RRITT           reduce using rule 73 (ELSE_BLOCK -> BLOCK .)
+
+
+state 257
+
+    (74) ELSE_BLOCK -> IF_BLOCK .
+
+    ID              reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    WHILE           reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    LRITT           reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    IF              reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    DISP            reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    PLAYT           reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    STREAMT         reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    MIDIT           reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    MST             reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    RETURN          reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    RTRIAN          reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+    RRITT           reduce using rule 74 (ELSE_BLOCK -> IF_BLOCK .)
+
+
+state 258
+
+    (105) ARRAYB -> COMMA C1 EXP C2 ARRAYB .
+
+    RSQUARE         reduce using rule 105 (ARRAYB -> COMMA C1 EXP C2 ARRAYB .)
+

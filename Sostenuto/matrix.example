@@ -1,0 +1,33 @@
+composition music
+
+
+main
+|>	
+	var ( 
+		Number arr[4][2], 
+		Number i, 
+		Number j, 
+		Number temp
+	)
+
+	arr[0][0] = 100;
+	arr[0][1] = 200;
+	arr[1][0] = 300;
+	arr[1][1] = 400;
+	arr[2][0] = 500;
+	arr[2][1] = 600;
+	arr[3][0] = 700;
+	arr[3][1] = 800;
+
+	i = 0;
+	[: (4)->
+		j = 0;
+		[:	(2) ->
+
+			temp = 100 + arr[i][j] * 10;
+			display(temp);
+			j = j + 1;
+		:]
+		i = i + 1;
+	:]
+<|

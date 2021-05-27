@@ -1,0 +1,129 @@
+composition hip_hop
+var(Number res)
+
+func abc :: -> Silence 
+|> 
+	display("test");
+<|
+
+func fibo :: Number lim -> Number 
+|>	var(Number ret)
+	
+	if :: lim == 0 -> ret = 0;
+	if :: lim == 1 -> ret = 1;
+	if :: lim > 1 -> ret = fibo(lim - 1) + fibo(lim - 2);
+
+	return ret;
+<|
+
+
+func sumatres :: Number a, Number b, Number c, String message, Bool show -> Number
+|>
+	if :: show -> 
+	|>
+		display(message);
+	<|
+
+	return a + b + c;
+
+<|
+
+
+main
+|>	
+	sumatres ( 1 , 2 , 3, "Sifunciona", true);
+<|
+
+
+
+composition hip_hop
+var(Note note , Number res)
+
+main
+|>	
+	Stream(2);
+	res = 0;
+	[: (3) ->
+
+		Play( D3#.1/4 + res, 0);
+		Play( G3.1/4 + res, 0);
+		Play( D4#.1/4 + res, 0);
+
+		Play( C2.1/4 + res, 1);
+		Play( G2.1/4 + res, 1);
+		Play( C3.1/4 + res, 1);
+
+		res = res + 12;
+	:]
+
+	MusicSheet();
+
+<|
+
+composition hip_hop
+var(Note note , Number res)
+
+main
+|>	
+	Stream(2);
+	res = 0;
+	[: (3) ->
+
+		Play( C3.1/5 + res, 0);
+		Play( G3.1/5 + res, 0);
+		Play( C4.1/5 + res, 0);
+		Play( E4.1/5 + res, 0);
+
+		res = res + 12;
+	:]
+
+	Play( C3.1/5 + res, 0);
+	Play( G3.1/5 + res, 0);
+	Play( C4.1/5 + res, 0);
+	Play( E4.1/5 + res, 0);
+	Play( C4.1/5 + res, 0);
+	Play( G3.1/5 + res, 0);
+	Play( C3.1/5 + res, 0);
+
+	res = res - 12;
+
+	[: (3) ->
+
+		Play( E4.1/5 + res, 0);
+		Play( C4.1/5 + res, 0);
+		Play( G3.1/5 + res, 0);
+		Play( C3.1/5 + res, 0);
+		res = res - 12;
+	:]
+
+
+
+	Play( C2.4/1, 1);
+	Play (Silence, 4, 1);
+	Play( G1.4/1, 1);
+
+
+	MusicSheet();
+
+<|
+
+
+
+composition music
+
+
+main
+|>	
+	var ( 
+		Number arr[4], Number res
+	)
+
+	arr = [ 0 , 1 , 2 , 3 ];
+
+	display(arr[0]);
+	display(arr[1]);
+	display(arr[2]);
+	display(arr[3]);
+<|
+
+
