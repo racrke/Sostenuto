@@ -1,0 +1,50 @@
+composition hip_hop
+var(Number res, Number i, Number j)
+
+/* 
+	Calcula el numbero n de fibonacci 
+*/
+func fibo :: Number lim -> Number 
+|>	var(Number ret)
+	if :: lim == 0 -> ret = 0;
+	if :: lim == 1 -> ret = 1;
+	if :: lim > 1 -> ret = fibo(lim - 1) + fibo(lim - 2);
+
+	return ret;
+<|
+
+/* 
+	Version ciclica de Fibonacci 
+*/
+func fiboCiclico :: Number lim -> Number 
+|>	var(Number ret , Number n1, Number n2, Number n3)
+	if :: lim == 0 -> n3 = 0;
+	if :: lim == 1 -> n3 = 1;
+	if :: lim == 2 -> n3 = 1;
+	n1 = 1;
+	n2 = 1;
+
+	while :: lim > 2 
+	|>
+		n3 = n1 + n2;
+		n1 = n2;
+		n2 = n3;
+		lim  = lim - 1;
+	<|
+	
+	return n3;
+<|
+
+main
+|>	
+var(Number arr[0])
+	i = 0;
+	arr = [1,2,3,4,5,6,7 ];
+
+	[: (7) ->
+		display(fibo(arr[i]));
+		display(fiboCiclico(arr[i]));
+		i = i + 1;
+	:]
+
+<|

@@ -1,7 +1,7 @@
 composition hip_hop
-var(Number res, Number arr[0], Number i, Number j)
+var(Number res, Number i, Number j)
 
-
+/* Calcula el numbero n de fibonacci */
 func fibo :: Number lim -> Number 
 |>	var(Number ret)
 	if :: lim == 0 -> ret = 0;
@@ -14,12 +14,13 @@ func fibo :: Number lim -> Number
 
 main
 |>	
+var(Number arr[0])
 	i = 0;
-	arr = [ 1 , 2 , 3 , 4 , 5 ];
+	arr = [1,2,3,4,5,6,7 ];
 	res = 0;
 
 
-	[: (5) ->
+	[: (7) ->
 		j = fibo(arr[i]);
 		display(j);
 		res = res + j;

@@ -4,7 +4,7 @@ var(Note note , Number res)
 main
 |>	
 	Stream(2);
-	res = 0 - 3;
+	res = -3;
 
 	[: 
 		Play(E5.1/2 + res ,0);

@@ -1,0 +1,12 @@
+composition music
+
+
+main
+|>	
+	var ( 
+		String in
+	)
+
+	display("Yo me llamo " + input(String));
+
+<|

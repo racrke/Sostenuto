@@ -1,0 +1,51 @@
+composition find
+var(Number arr[10], Number size)
+
+
+func find ::  Number value -> Number
+|>	
+	var(Number i, Number result )
+	result = -1;
+	i = 0;
+	[: (size) ->
+
+		if :: arr[i] == value -> result = i;
+		i = i + 1;
+	:]
+	return result;
+<|
+
+func printArray :: -> Silence 
+|>	var(Number i )
+	i = 0;
+	[: (size) ->
+		display(arr[i]);
+		i = i + 1;
+	:]
+<|
+
+main
+|>	
+	var(
+		Number res
+	)
+
+	size = 10;
+	arr[0] = 3;
+	arr[1] = 1;
+	arr[2] = 4;
+	arr[3] = 2;
+	arr[4] = 6;
+	arr[5] = 5;
+	arr[6] = 7;
+	arr[7] = 9;
+	arr[8] = 8;
+	arr[9] = 0;
+
+	res = find(6);
+	display("Encontrado");
+	display(res);
+
+	if :: res > 0 -> display(arr[res]);
+	
+<|

@@ -1,0 +1,42 @@
+composition sort
+var( Number a, Number b)
+
+/* Version factorial recursiva */
+func factorialRecursivo :: Number num -> Number
+|>	
+	var(Number ret)
+
+	if :: num == 0 
+	|> 
+		ret = 1;
+	<|
+	else
+ 	|>
+ 		ret = num * factorialRecursivo(num - 1);
+ 	<|
+	
+	return ret;
+<|
+
+/* Version factorial ciclica */
+func factorial :: Number num -> Number
+|>
+	var(Number acum)
+	acum = 1;
+	
+	while :: num > 0 
+	|>
+		acum = acum * num;
+		num = num - 1;
+	<|
+	return acum;
+<|
+
+
+main
+|>	
+	a = factorialRecursivo(5);
+	b = factorial(5);
+
+	display("Resultado",a,b);
+<|

@@ -1,6 +1,13 @@
 from music21 import *
 
-#Puede estar mal el temporal porque no tiene tipo de dato
+_NUMBER = 1
+_NOTE = 2
+_BOOL = 3
+_STRING = 4
+_NUMBER_POINTER = 5
+_NOTE_POINTER = 6 
+_NUMBER_MATRIX = 7
+
 class VirtualMachine:
     _MOV_ = 0
     _ADD_ = 1
@@ -16,8 +23,6 @@ class VirtualMachine:
     _GOTO_ = 11
     _GOTOF_= 12
     _GOTOV_= 13
-    _PRINT_= 30
-    _PLAY_ = 42
     _MOVH_ = 14
     _PARAM_ = 15
     _FUNC_ = 16
@@ -29,6 +34,7 @@ class VirtualMachine:
     _GETRET_ = 22
     _INDEX_ = 23
     _MOVI_ = 24
+    _READ_ = 25
     _PRINT_= 30
     _PLAYN_ = 42
     _PLAYC_ = 43
@@ -50,7 +56,6 @@ class VirtualMachine:
     BASE_TYPE_NUMBER_ARRAY = 4000 #Pointers
     BASE_TYPE_NOTE_ARRAY = 5000
     BASE_TYPE_NUMBER_MATRIX = 6000 #Pointer of Pointer
-
     DATA_LIMIT = 999
 
     stack_params = []
@@ -58,10 +63,13 @@ class VirtualMachine:
 
     
     scope_map = {"const":BASE_CONS, "global":BASE_GLOBAL,"local":BASE_LOCAL}
-    type_map = {"Number":BASE_TYPE_NUMBER,"Note":BASE_TYPE_NOTE,
-                "Bool":BASE_TYPE_BOOL,"String":BASE_TYPE_STRING,
-                "*Number":BASE_TYPE_NUMBER_ARRAY,"**Number":BASE_TYPE_NUMBER_MATRIX,
-                "*Note":BASE_TYPE_NOTE_ARRAY}
+    type_map = {_NUMBER:BASE_TYPE_NUMBER,
+                _NOTE:BASE_TYPE_NOTE,
+                _BOOL:BASE_TYPE_BOOL,
+                _STRING:BASE_TYPE_STRING,
+                _NUMBER_POINTER:BASE_TYPE_NUMBER_ARRAY,
+                _NUMBER_MATRIX:BASE_TYPE_NUMBER_MATRIX,
+                _NOTE_POINTER:BASE_TYPE_NOTE_ARRAY}
 
     streams = []
     keys = {"C":0,"D":2,"E":4,"F":5,"G":7,"A":9,"B":11}
@@ -69,16 +77,22 @@ class VirtualMachine:
     def __init__(self):
         self.stack_params = []
         self.stack_jump = []
-        self.memory = {"const":{ 0:0 },"global":{0:0},"local":[{}]}
-        self.counters = {"Number":0,"Note":0,
-                "Bool":0,"String":0,
-                "*Number":0,"**Number":0,
-                "*Note":0}
+        self.memory = {"const":{},"global":{},"local":[{}]}
+        self.counters = {_NUMBER:0,_NOTE:0,
+                _BOOL:0,_STRING:0,
+                _NUMBER_POINTER:0,_NUMBER_MATRIX:0,
+                _NOTE_POINTER:0}
 
         self.return_value = None
         
     def request(self,location,datatype):
+        """
+        Allocates a memory address.
+        Receives Location of memory: const, local, global
+        and datatype
+        returns Numeric address
 
+        """
         current = self.counters[datatype]
         self.counters[datatype] += 1   
         address = self.scope_map[location] + self.type_map[datatype] + current + 1
@@ -87,8 +101,14 @@ class VirtualMachine:
 
 
     def request_array(self,location,pointer_type,datatype,dim):
+        """
+        Allocates memory to an array.
+        Receives Location of memory: const, local, global
+        datatype of variable,
+        datatype of cells
+        returns origin of array and dimensions
+        """
         pointer = self.request(location,pointer_type)
-
         cell_origin = None
         for _ in range(dim):
             if cell_origin == None:
@@ -102,12 +122,17 @@ class VirtualMachine:
         return pointer,(cell_origin,dim)
 
     def request_matrix(self,location,pointer_type,datatype,dim1,dim2):
+        """
+        Allocates memory to an Matrix.
+        Receives Location of memory: const, local, global
+        datatype of variable,
+        datatype of cells
+        return origin of matrix and dimensions
+        """
         pointer = self.request(location,pointer_type)
-
         cell_origin = None
         for _ in range(dim1):
-            origin, obj = self.request_array(location,pointer_type[1:],datatype,dim2)
-
+            origin, obj = self.request_array(location,self.data_type_point_to(pointer_type),datatype,dim2)
             if cell_origin == None:
                 cell_origin = origin 
 
@@ -116,8 +141,27 @@ class VirtualMachine:
         self.write(pointer,(cell_origin,dim1,dim2))
         return pointer, (cell_origin,dim1,dim2)
 
+    def data_type_point_to(self,value):
+        """
+        Derefences a datatype.
+        Receives numeric datatype 
+        returns numeric datatype
+        """
+        if value == _NUMBER_MATRIX:
+            return _NUMBER_POINTER
+        if value == _NUMBER_POINTER:
+            return _NUMBER
+        if value == _NOTE_POINTER:
+            return _NOTE
+
+        print("Value is not a valid pointer",value)
+        raise Exception
 
     def get_scope(self,address):
+        """
+        Obtains location of address
+        Returns Location in STRING
+        """
         if address > self.BASE_LOCAL:
             return "local"
 
@@ -126,35 +170,47 @@ class VirtualMachine:
 
         elif address > self.BASE_CONS:
             return "const"
+
     def get_datatype(self,address,scope):
+        """
+        Obtains datatype of address
+        Receives address and scope
+        returns numeric datatype
+        """
         base = self.scope_map[scope]
-
         if address - base > self.BASE_TYPE_NUMBER_MATRIX :
-            return "**Number"
+            return _NUMBER_MATRIX
         elif address - base > self.BASE_TYPE_NOTE_ARRAY :
-            return "*Note"
+            return _NOTE_POINTER
         elif address - base > self.BASE_TYPE_NUMBER_ARRAY :
-            return "*Number"
+            return _NUMBER_POINTER
         elif address - base > self.BASE_TYPE_STRING :
-            return "String"
+            return _STRING
         elif address- base > self.BASE_TYPE_BOOL :
-            return "Bool"
+            return _BOOL
         elif address - base > self.BASE_TYPE_NOTE :
-            return "Note"
+            return _NOTE
         elif address - base > self.BASE_TYPE_NUMBER :
-            return "Number"    
-
-
+            return _NUMBER  
 
 
     def new_context(self):
-        self.memory["local"].append({0:1,1:None})
+        self.memory["local"].append({})
     def destroy_context(self):
         self.memory["local"].pop()
+
     def push_param(self,address,new_address):
+        """
+        Adds a element to Stack param
+        """
         self.stack_params.append((self.read(address),new_address)) #Value
 
     def write(self,address,value):
+        """
+        Writes in a given address the value
+        Receives numeric address 
+        Receives any value
+        """
 
         try:
             if type(address) != int and type(address) != float:
@@ -177,7 +233,12 @@ class VirtualMachine:
             return None
     
 
-    def calculate_address(self,address,dim1): #Assumess twin cell addresses
+    def calculate_address(self,address,dim1):
+        """
+        Verifies and calculates the index of non-atomic variables
+        Receives numeric address 
+        returns numeric address
+        """
         obj = self.read(address)
         dim1 = self.read(dim1)
 
@@ -201,7 +262,11 @@ class VirtualMachine:
 
 
     def read(self,address):
-
+        """
+        Reads a memory slot
+        Receives numeric address 
+        returns the value of the cell
+        """
         try:
             if type(address) != int and type(address) != float:
                 address = address[0]
@@ -219,19 +284,23 @@ class VirtualMachine:
                 raise Exception
         except Exception as e:
             print("Memory Error: Address does not exist",address)
+            print(self.memory)
             raise Exception
             return None
     
 
     def calculate(self,lines):
-
+        """
+        Calculates all the operations available in the Virtual machine
+        Receives an array of quadruples
+        """
         current_line = 0
         limit = 0
         while current_line < len(lines):
             limit += 1
 
             if limit > 9999:
-                print("Avoided possible Infite Cycle")
+                print("Sostenuto VM : Avoided possible Infite Cycle")
                 break
 
             #print("$",current_line)
@@ -243,7 +312,7 @@ class VirtualMachine:
 
                 sp = self.get_scope(line[2])
                 type_t = self.get_datatype(line[2],sp)
-                if type_t in ("*Number","*Note"):
+                if type_t in (_NUMBER_POINTER,_NOTE_POINTER):
                     if type(self.read(line[2])) == float:
                         address2 = self.read(self.read(line[2]))
                     else:
@@ -264,13 +333,14 @@ class VirtualMachine:
             if op == self._MULT_:
                 self.write(line[3], self.times(line[1],line[2]))
             if op == self._LTHAN_:
-                self.write(line[3],self.ind(line[1])<self.ind(line[2]))
+                self.write(line[3], self.less_than(line[1],line[2]))
             if op ==self._GTHAN_:
-                self.write(line[3],self.ind(line[1])>self.ind(line[2]))
+                self.write(line[3], self.more_than(line[1],line[2]))
             if op ==self._EQ_:
-                self.write(line[3],self.ind(line[1])==self.ind(line[2]))
+                self.write(line[3], self.equals(line[1],line[2]))
+
             if op ==self._DIFF_:
-                self.write(line[3],self.ind(line[1])!=self.ind(line[2]))
+                self.write(line[3], self.different(line[1],line[2]))
             if op ==self._AND_:
                 self.write(line[3],self.ind(line[1]) and self.ind(line[2]))
             if op ==self._OR_:
@@ -287,7 +357,7 @@ class VirtualMachine:
 
                 sp = self.get_scope(line[1])
                 type_t = self.get_datatype(line[1],sp)
-                if  type_t in ( "*Number","*Note"):
+                if  type_t in ( _NUMBER_POINTER,_NOTE_POINTER):
                     value = self.read(self.read(line[1]))
                 else:
                     value = self.read(line[1])
@@ -303,11 +373,9 @@ class VirtualMachine:
                 self.destroy_context()
     
             if op == self._PARAM_:
-                #print("PARAM",line,self.read(line[1]))
-
                 sp = self.get_scope(line[1])
                 type_t = self.get_datatype(line[1],sp)
-                if  type_t in ( "*Number","*Note"):
+                if  type_t in (_NUMBER_POINTER,_NOTE_POINTER):
                     address = self.read(line[1])
                 else:
                     address = line[1]
@@ -324,7 +392,7 @@ class VirtualMachine:
                 current_line = self.stack_jump.pop() 
                 self.destroy_context()
             if op == self._RETURN_:
-                self.return_value = self.read(line[1]) #Maybe should be a stack
+                self.return_value = self.read(line[1]) 
 
             if op == self._GETRET_:
                 self.write(line[1],self.return_value)
@@ -339,6 +407,17 @@ class VirtualMachine:
                 n = self.numerical_to_note(pitch,time)
                 st = self.read(line[2])
                 self.streams[int(st)].append(n)
+
+            if op == self._PLAYC_:
+                origin, dim = self.read(line[1])
+                st = self.read(line[2])
+                notes_t = []
+                for i in range(dim):
+                    pitch,time = self.read(origin + i) #Necesita conversion
+                    n = self.numerical_to_note(pitch,time)
+                    notes_t.append(n)
+                self.streams[int(st)].append(chord.Chord(notes_t))
+
             if op == self._MSHEET_:
                 piano = stream.Score()
 
@@ -359,26 +438,36 @@ class VirtualMachine:
             if op == self._INDEX_:
                 generated_address = self.calculate_address(line[1],line[2])
                 self.write(line[3],generated_address)
-            if op == self._MOVI_:
+            if op == self._MOVI_:  #Memory to indirect memory
                 address = self.read(line[1])
 
                 sp = self.get_scope(line[2])
                 type_t = self.get_datatype(line[2],sp)
-                if type_t in ("*Number","*Note"):
-                    address2 = self.read(line[2])
+                if type_t in (_NUMBER_POINTER,_NOTE_POINTER):
+                    if type(self.read(line[2])) == float:
+                        address2 = self.read(self.read(line[2]))
+                    else:
+                        address2 = self.read(line[2])
                 else:
                     address2 = self.read(line[2])
-
                 self.write(address,address2);
+            if op == self._READ_:
+                temp = input()
 
+                dt = self.get_datatype(line[1],self.get_scope(line[1]))
+                if dt == _NUMBER:
+                    temp = float(temp)
+                self.write(line[1],temp)
 
 
     def numerical_to_note(self,pitch,time):
         return note.Note(pitch,quarterLength=time)
 
     def str_to_note_numerical(self,value):
-
-        #e.g C4#.4/4 , A5 , B2b
+        """
+        Creates Music21 Object from String
+        returns Music21 Note object
+        """
         if value.find(".") != -1:
             temp = value.split(".")
             temp2 = temp[1].split("/")
@@ -409,12 +498,22 @@ class VirtualMachine:
         return (note_number,time)
         
     def MOVH (self,address,value):
+        """
+        Converts String Notes to Music21 Notes
+        returns the value
+        """
         scope = self.get_scope(address)
         right_type = self.get_datatype(address,scope)
-        if right_type == "Note":
+        if value == None:
+            return None
+        if right_type == _NOTE:
             return self.str_to_note_numerical(value)
         return value
 
+
+    ###
+    #   Operations and semantic cube
+    ###
     def addition(self,left,right):
 
         left_scope = self.get_scope(left)
@@ -425,10 +524,10 @@ class VirtualMachine:
         left = self.read(left)
         right = self.read(right)
 
-        if left_type == "Number":
-            if right_type == "Number":
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
                 return left + right
-            if right_type == "*Number":
+            if right_type == _NUMBER_POINTER:
                 obj = self.read(right)
 
                 if type(obj) == float:
@@ -438,45 +537,42 @@ class VirtualMachine:
                      pass    
 
 
-        if left_type == "String":
-            if right_type == "String":
+        if left_type == _STRING:
+            if right_type == _STRING:
                 return left + right
 
-        if left_type == "Note":
-            if right_type == "Number":
+        if left_type == _NOTE:
+            if right_type == _NUMBER:
                 return (left[0] + right,left[1])
 
-        if left_type == "*Number":
+        if left_type == _NUMBER_POINTER:
             obj = self.read(left)
             if type(obj) != float:
-                if right_type == "Number":
+                if right_type == _NUMBER:
                     #Array plus number
                     pass
 
-                if right_type == "*Number":
+                if right_type == _NUMBER_POINTER:
                     obj2 = self.read(right)
                     if type(obj2) != float:
                         # Array plus Array
                          pass
             else:
-                if right_type == "Number":
+                if right_type == _NUMBER:
                     return obj + right
 
-                if right_type == "*Number":
+                if right_type == _NUMBER_POINTER:
                     obj2 = self.read(right)
                     if type(obj2) == float:
                         return obj + obj2 
 
 
-        if left_type == "*Note":
-            if right_type == "Number":
+        if left_type == _NOTE_POINTER:
+            if right_type == _NUMBER:
                 pass 
-            if right_type == "Note":
+            if right_type == _NOTE:
                 pass  
-            if right_type == "*Note":
-                pass 
-        if left_type == "**Note":
-            if right_type == "**Number":
+            if right_type == _NOTE_POINTER:
                 pass 
 
         print("Invalid operand + between",left,left_type,"and",right,right_type)
@@ -491,10 +587,10 @@ class VirtualMachine:
         left = self.read(left)
         right = self.read(right)
 
-        if left_type == "Number":
-            if right_type == "Number":
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
                 return left - right
-            if right_type == "*Number":
+            if right_type == _NUMBER_POINTER:
                 obj = self.read(right)
 
                 if type(obj) == float:
@@ -503,19 +599,19 @@ class VirtualMachine:
                     # number plus array, incorrect
                      pass
 
-        if left_type == "Note":
-            if right_type == "Number":
+        if left_type == _NOTE:
+            if right_type == _NUMBER:
                 return (left[0] - right,left[1])    
 
-        if left_type == "*Number":
+        if left_type == _NUMBER_POINTER:
             obj = self.read(left)
             if type(obj) != float:
                 pass
             else:
-                if right_type == "Number":
+                if right_type == _NUMBER:
                     return obj - right
 
-                if right_type == "*Number":
+                if right_type == _NUMBER_POINTER:
                     obj2 = self.read(right)
                     if type(obj2) == float:
                         return obj - obj2 
@@ -533,10 +629,10 @@ class VirtualMachine:
         left = self.read(left)
         right = self.read(right)
 
-        if left_type == "Number":
-            if right_type == "Number":
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
                 return left / right
-            if right_type == "*Number":
+            if right_type == _NUMBER_POINTER:
                 obj = self.read(right)
 
                 if type(obj) == float:
@@ -545,15 +641,15 @@ class VirtualMachine:
                     # number plus array, incorrect
                      pass    
 
-        if left_type == "*Number":
+        if left_type == _NUMBER_POINTER:
             obj = self.read(left)
             if type(obj) != float:
                 pass
             else:
-                if right_type == "Number":
+                if right_type == _NUMBER:
                     return obj / right
 
-                if right_type == "*Number":
+                if right_type == _NUMBER_POINTER:
                     obj2 = self.read(right)
                     if type(obj2) == float:
                         return obj / obj2 
@@ -571,33 +667,33 @@ class VirtualMachine:
         right = self.read(right)    
 
 
-        if left_type == "Number":
-            if right_type == "Number":
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
                 return left * right
-            if right_type == "*Number":
+            if right_type == _NUMBER_POINTER:
                 obj = self.read(right)
 
                 if type(obj) == float:
                     return left * obj
 
 
-        if left_type == "*Number":
+        if left_type == _NUMBER_POINTER:
             obj = self.read(left)
             if type(obj) != float:
-                if right_type == "Number":
+                if right_type == _NUMBER:
                     #Array plus number
                     pass
 
-                if right_type == "*Number":
+                if right_type == _NUMBER_POINTER:
                     obj2 = self.read(right)
                     if type(obj2) != float:
                         # Array plus Array
                          pass
             else:
-                if right_type == "Number":
+                if right_type == _NUMBER:
                     return obj * right
 
-                if right_type == "*Number":
+                if right_type == _NUMBER_POINTER:
                     obj2 = self.read(right)
                     if type(obj2) == float:
                         return obj * obj2 
@@ -608,17 +704,234 @@ class VirtualMachine:
 
 
     def more_than(self,left,right):
-        pass
+        left_scope = self.get_scope(left)
+        right_scope = self.get_scope(right)
+        left_type = self.get_datatype(left,left_scope)
+        right_type = self.get_datatype(right,right_scope)
+
+        left = self.read(left)
+        right = self.read(right)    
+
+
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
+                return left > right
+            if right_type == _NUMBER_POINTER:
+                obj = self.read(right)
+
+                if type(obj) == float:
+                    return left > obj
+
+
+        if left_type == _NUMBER_POINTER:
+            obj = self.read(left)
+            if type(obj) != float:
+                if right_type == _NUMBER:
+                    #Array plus number
+                    pass
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) != float:
+                        # Array plus Array
+                         pass
+            else:
+                if right_type == _NUMBER:
+                    return obj > right
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) == float:
+                        return obj > obj2 
+        print("Not Implemented")
+        raise Exception
+
     def less_than(self,left,right):
-        pass
+        left_scope = self.get_scope(left)
+        right_scope = self.get_scope(right)
+        left_type = self.get_datatype(left,left_scope)
+        right_type = self.get_datatype(right,right_scope)
+
+        left = self.read(left)
+        right = self.read(right)    
+
+
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
+                return left < right
+            if right_type == _NUMBER_POINTER:
+                obj = self.read(right)
+
+                if type(obj) == float:
+                    return left < obj
+
+
+        if left_type == _NUMBER_POINTER:
+            obj = self.read(left)
+            if type(obj) != float:
+                if right_type == _NUMBER:
+                    #Array plus number
+                    pass
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) != float:
+                        # Array plus Array
+                         pass
+            else:
+                if right_type == _NUMBER:
+                    return obj < right
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) == float:
+                        return obj < obj2 
+        print("Not Implemented")
+        raise Exception
+
     def equals(self,left,right):
-        pass
+        left_scope = self.get_scope(left)
+        right_scope = self.get_scope(right)
+        left_type = self.get_datatype(left,left_scope)
+        right_type = self.get_datatype(right,right_scope)
+
+        left = self.read(left)
+        right = self.read(right)    
+
+
+        if left_type ==_BOOL:
+            if right_type == _BOOL:
+                return left == right
+
+        if left_type ==_STRING:
+            if right_type == _STRING:
+                return left == right
+        if left_type == _NOTE:
+            if right_type == _NOTE:
+                return left == right
+
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
+                return left == right
+            if right_type == _NUMBER_POINTER:
+                obj = self.read(right)
+
+                if type(obj) == float:
+                    return left == obj
+
+
+        if left_type == _NUMBER_POINTER:
+            obj = self.read(left)
+            if type(obj) != float:
+                if right_type == _NUMBER:
+                    #Array plus number
+                    pass
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) != float:
+                        # Array plus Array
+                         pass
+            else:
+                if right_type == _NUMBER:
+                    return obj == right
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) == float:
+                        return obj == obj2
+
+        print("Not Implemented")
+        raise Exception
+
     def different(self,left,right):
-        pass
+
+        left_scope = self.get_scope(left)
+        right_scope = self.get_scope(right)
+        left_type = self.get_datatype(left,left_scope)
+        right_type = self.get_datatype(right,right_scope)
+
+        left = self.read(left)
+        right = self.read(right)    
+
+
+        if left_type ==_BOOL:
+            if right_type == _BOOL:
+                return left != right
+
+        if left_type == _NUMBER:
+            if right_type == _NUMBER:
+                return left != right
+            if right_type == _NUMBER_POINTER:
+                obj = self.read(right)
+
+                if type(obj) == float:
+                    return left != obj
+
+        if left_type ==_STRING:
+            if right_type == _STRING:
+                return left != right
+
+        if left_type == _NOTE:
+            if right_type == _NOTE:
+                return left == right
+
+        if left_type == _NUMBER_POINTER:
+            obj = self.read(left)
+            if type(obj) != float:
+                if right_type == _NUMBER:
+                    #Array plus number
+                    pass
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) != float:
+                        # Array plus Array
+                         pass
+            else:
+                if right_type == _NUMBER:
+                    return obj != right
+
+                if right_type == _NUMBER_POINTER:
+                    obj2 = self.read(right)
+                    if type(obj2) == float:
+                        return obj != obj2 
+        print("Not Implemented")
+        raise Exception
+
     def and_op(self,left,right):
-        pass
+        
+        left_scope = self.get_scope(left)
+        right_scope = self.get_scope(right)
+        left_type = self.get_datatype(left,left_scope)
+        right_type = self.get_datatype(right,right_scope)
+
+        left = self.read(left)
+        right = self.read(right)    
+
+
+        if left_type ==_BOOL:
+            if right_type == _BOOL:
+                return left and right
+        print("Not Implemented")
+        raise Exception
+
     def or_op(self,left,right):
-        pass
+        left_scope = self.get_scope(left)
+        right_scope = self.get_scope(right)
+        left_type = self.get_datatype(left,left_scope)
+        right_type = self.get_datatype(right,right_scope)
+
+        left = self.read(left)
+        right = self.read(right)    
+
+
+        if left_type ==_BOOL:
+            if right_type == _BOOL:
+                return left or right
+
+        print("Not Implemented")
+        raise Exception
 
     def ind(self,opt):
         #assumes always addresses
